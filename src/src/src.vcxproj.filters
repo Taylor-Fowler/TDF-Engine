@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{1bf4a935-2f2f-491e-bd67-65e8b63515ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{edc87dd4-7827-4f35-b370-d8f25a125239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources">
+      <UniqueIdentifier>{92769e25-5e53-491e-a0bd-a309a95d1c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Factory">
+      <UniqueIdentifier>{f8178ec1-8476-461a-8d9f-446257fac9f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Framebuffer">
+      <UniqueIdentifier>{9775175a-d506-4768-99b0-16e8d338e0bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Material">
+      <UniqueIdentifier>{cfb8b05c-ca0f-461f-887f-f69f0a029654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Mesh">
+      <UniqueIdentifier>{fded4b92-4c52-47c9-936d-f70cca8898ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Shader">
+      <UniqueIdentifier>{3b2bb060-ae6e-4ab0-831d-975fe09ba760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Program">
+      <UniqueIdentifier>{76093ded-d63d-4d73-9470-9722ed38a5d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Texture">
+      <UniqueIdentifier>{963c8297-d602-4f56-815e-b600c2e0bee3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine">
+      <UniqueIdentifier>{ae048f62-108a-432f-8c6d-d2167e4915c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\ShaderParameter">
+      <UniqueIdentifier>{ddac7140-e615-40c0-bc62-812be15e55ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\IO">
+      <UniqueIdentifier>{f3fad4c6-15c9-43e5-9796-e69efabb2140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Window">
+      <UniqueIdentifier>{95bb5b29-95b0-4b2f-a5fc-a454a6b9c5f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Factory\GL_ResourceFactory.cpp">
+      <Filter>src\RenderResources\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Factory\RenderResourceFactory.cpp">
+      <Filter>src\RenderResources\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\RenderLoop.cpp">
+      <Filter>src\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Program\GL_Program.cpp">
+      <Filter>src\RenderResources\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\SDL_ReadWrite.cpp">
+      <Filter>src\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Shader\GL_Shader.cpp">
+      <Filter>src\RenderResources\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\ShaderParameter\ShaderParamList.cpp">
+      <Filter>src\RenderResources\ShaderParameter</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\FileReadWrite.cpp">
+      <Filter>src\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\ResourceManager.cpp">
+      <Filter>src\RenderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\Loader3D.cpp">
+      <Filter>src\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Mesh\GL_Mesh.cpp">
+      <Filter>src\RenderResources\Mesh</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RenderResources\Factory\GL_ResourceFactory.h">
+      <Filter>src\RenderResources\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Factory\RenderResourceFactory.h">
+      <Filter>src\RenderResources\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\IRender.h">
+      <Filter>src\RenderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RenderLoop.h">
+      <Filter>src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Material\Material.h">
+      <Filter>src\RenderResources\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\ShaderParameter\ShaderParameters.h">
+      <Filter>src\RenderResources\ShaderParameter</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Program\Program.h">
+      <Filter>src\RenderResources\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Program\GL_Program.h">
+      <Filter>src\RenderResources\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Shader\GL_Shader.h">
+      <Filter>src\RenderResources\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Shader\Shader.h">
+      <Filter>src\RenderResources\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\FileReadWrite.h">
+      <Filter>src\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\SDL_ReadWrite.h">
+      <Filter>src\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\ShaderParameter\ShaderParamList.h">
+      <Filter>src\RenderResources\ShaderParameter</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\ResourceManager.h">
+      <Filter>src\RenderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Mesh\Mesh.h">
+      <Filter>src\RenderResources\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\Loader3D.h">
+      <Filter>src\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Mesh\GL_Mesh.h">
+      <Filter>src\RenderResources\Mesh</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
