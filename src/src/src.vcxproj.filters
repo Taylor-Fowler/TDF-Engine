@@ -43,6 +43,18 @@
     <Filter Include="src\Engine\Window">
       <UniqueIdentifier>{95bb5b29-95b0-4b2f-a5fc-a454a6b9c5f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Components">
+      <UniqueIdentifier>{26f15a67-79e7-4d64-8b88-eacb8087278c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Components\Camera">
+      <UniqueIdentifier>{eab0627c-18ac-42f6-a93d-f50949664827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\EventSystem">
+      <UniqueIdentifier>{0cd6a3ed-5aa9-4f93-8f43-e314854558c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\EventSystem\EventInterfaces">
+      <UniqueIdentifier>{ceffe2d1-8790-49f5-9e25-d618e72342e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="RenderResources\Mesh\GL_Mesh.cpp">
       <Filter>src\RenderResources\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Window\SDL_MyWindow.cpp">
+      <Filter>src\Engine\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +148,24 @@
     </ClInclude>
     <ClInclude Include="RenderResources\Mesh\GL_Mesh.h">
       <Filter>src\RenderResources\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventSystem\EventSystem.h">
+      <Filter>src\Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventSystem\EventDefs.h">
+      <Filter>src\Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventSystem\EventInterfaces\IWindowEvents.h">
+      <Filter>src\Engine\EventSystem\EventInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventSystem\SDL_EventSystem.h">
+      <Filter>src\Engine\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Window.h">
+      <Filter>src\Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\SDL_MyWindow.h">
+      <Filter>src\Engine\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

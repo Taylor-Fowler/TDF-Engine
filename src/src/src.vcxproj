@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\RenderLoop.cpp" />
+    <ClCompile Include="Engine\Window\SDL_MyWindow.cpp" />
     <ClCompile Include="IO\FileReadWrite.cpp" />
     <ClCompile Include="IO\Loader3D.cpp" />
     <ClCompile Include="IO\SDL_ReadWrite.cpp" />
@@ -33,7 +34,13 @@
     <ClCompile Include="RenderResources\Shader\GL_Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\EventSystem\EventDefs.h" />
+    <ClInclude Include="Engine\EventSystem\EventInterfaces\IWindowEvents.h" />
+    <ClInclude Include="Engine\EventSystem\EventSystem.h" />
+    <ClInclude Include="Engine\EventSystem\SDL_EventSystem.h" />
     <ClInclude Include="Engine\RenderLoop.h" />
+    <ClInclude Include="Engine\Window\SDL_MyWindow.h" />
+    <ClInclude Include="Engine\Window\Window.h" />
     <ClInclude Include="IO\FileReadWrite.h" />
     <ClInclude Include="IO\Loader3D.h" />
     <ClInclude Include="IO\SDL_ReadWrite.h" />
