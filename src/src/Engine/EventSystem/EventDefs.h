@@ -1,17 +1,26 @@
 #pragma once
 
 // Event Types
-#define ES_EVENT_WINDOW 0x0000;
-#define ES_EVENT_KEYBOARD 0x0001;
-#define ES_EVENT_MOUSE_MOVE 0x0002;
-#define ES_EVENT_MOUSE_BUTTON 0x0003;
-#define ES_EVENT_MOUSE_WHEEL 0x0004;
+#define ES_EVENT_WINDOW 0x0000
+#define ES_EVENT_KEYBOARD 0x0001
+#define ES_EVENT_MOUSE_MOVE 0x0002
+#define ES_EVENT_MOUSE_BUTTON 0x0003
+#define ES_EVENT_MOUSE_WHEEL 0x0004
 
 // Keyboard Event types/states
-#define ES_KEY_UP 0x0100
-#define ES_KEY_DOWN 0x0101
-#define ES_KEY_PRESSED 0x0102
-#define ES_KEY_RELEASED 0x0103
+#define ES_KEY_UP 0x0000
+#define ES_KEY_DOWN 0x0001
+#define ES_KEY_PRESSED 0x0002
+#define ES_KEY_RELEASED 0x0003
+
+// Window Event types
+#define ES_WIND_SHOW 0x0000
+#define ES_WIND_HIDE 0x0001
+#define ES_WIND_EXPOSE 0x0002
+#define ES_WIND_MOVE 0x0003
+#define ES_WIND_RESIZE 0x0004
+#define ES_WIND_SIZE_CHANGE 0x0005
+#define ES_WIND_CLOSE 0x0006
 
 // Keyboard key symbols
 

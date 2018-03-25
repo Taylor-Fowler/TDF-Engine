@@ -46,3 +46,13 @@ Mesh * GL_ResourceFactory::CreateDynamicMesh(const std::string & name) const
 {
 	return nullptr;
 }
+
+std::shared_ptr<Shader> GL_ResourceFactory::CreateShader(const std::string & name) const
+{
+	return std::shared_ptr<Shader>();
+}
+
+std::shared_ptr<Program> GL_ResourceFactory::CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders) const
+{
+	return std::shared_ptr<Program>();
+}

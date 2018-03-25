@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\EventSystem\EventSystem.cpp" />
+    <ClCompile Include="Engine\EventSystem\SDL_EventSystem.cpp" />
     <ClCompile Include="Engine\RenderLoop.cpp" />
     <ClCompile Include="Engine\Window\SDL_MyWindow.cpp" />
     <ClCompile Include="IO\FileReadWrite.cpp" />
@@ -34,6 +36,7 @@
     <ClCompile Include="RenderResources\Shader\GL_Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\EventSystem\Collections\WindowEventMap.h" />
     <ClInclude Include="Engine\EventSystem\EventDefs.h" />
     <ClInclude Include="Engine\EventSystem\EventInterfaces\IWindowEvents.h" />
     <ClInclude Include="Engine\EventSystem\EventSystem.h" />

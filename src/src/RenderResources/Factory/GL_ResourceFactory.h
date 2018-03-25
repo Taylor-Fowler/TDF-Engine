@@ -20,7 +20,7 @@ public:
 	std::shared_ptr<Mesh> CreateStaticMesh(const std::string& name) const override;
 	Mesh* CreateDynamicMesh(const std::string& name) const override;
 
-	std::shared_ptr<Shader> CreateShader(const std::string& name) const override {};
-	std::shared_ptr<Program> CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders) const override {};
+	std::shared_ptr<Shader> CreateShader(const std::string& name) const override;
+	std::shared_ptr<Program> CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders) const override;
 
 };

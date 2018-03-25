@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+#include <memory>
+
+#include "../EventSystem/EventSystem.h"
 #include "../EventSystem/EventInterfaces/IWindowEvents.h"
 
 class Window : IWindowEvents
@@ -13,11 +16,23 @@ protected:
 	std::string		m_title		= "A Window";
 
 public:
+	virtual void SwapBuffer() = 0;
 	virtual ~Window() = 0 {};
 
 protected:
-	Window() {};
-	Window(unsigned int width, unsigned int height, unsigned int x, unsigned int y, std::string title)
+	Window(EventSystem& eventSystem)
+	{
+		init(eventSystem);
+	}
+	Window(EventSystem& eventSystem, unsigned int width, unsigned int height, unsigned int x, unsigned int y, std::string title)
 		: m_width(width), m_height(height), m_x(x), m_y(y), m_title(title)
-	{};
+	{
+		init(eventSystem);
+	}
+
+private:
+	void init(EventSystem& eventSystem)
+	{
+		eventSystem.SubscribeWindowEvents(std::make_shared<IWindowEvents>(this), m_id);
+	}
 };
