@@ -4,6 +4,7 @@
 
 class GL_Mesh : public Mesh
 {
+	friend class Loader3D;
 public:
 
 	~GL_Mesh() override {};

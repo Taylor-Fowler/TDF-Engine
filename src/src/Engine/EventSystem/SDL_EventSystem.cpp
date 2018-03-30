@@ -16,7 +16,22 @@ const std::map<Uint32, int> SDL_EventSystem::EVENT_TYPE_MAP =
 
 const std::map<Uint8, int> SDL_EventSystem::WINDOW_EVENT_TYPE_MAP =
 {
-	{ SDL_WINDOWEVENT_SHOWN, ES_WIND_SHOW }
+	{ SDL_WINDOWEVENT_SHOWN, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_HIDDEN, ES_WIND_HIDE },
+	{ SDL_WINDOWEVENT_EXPOSED, ES_WIND_EXPOSE },
+	{ SDL_WINDOWEVENT_MOVED, ES_WIND_MOVE },
+	{ SDL_WINDOWEVENT_RESIZED, ES_WIND_RESIZE },
+	{ SDL_WINDOWEVENT_SIZE_CHANGED, ES_WIND_SIZE_CHANGE },
+	{ SDL_WINDOWEVENT_MINIMIZED, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_MAXIMIZED, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_RESTORED, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_ENTER, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_LEAVE, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_FOCUS_GAINED, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_FOCUS_LOST, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_CLOSE, ES_WIND_CLOSE },
+	{ SDL_WINDOWEVENT_TAKE_FOCUS, ES_WIND_SHOW },
+	{ SDL_WINDOWEVENT_HIT_TEST, ES_WIND_SHOW },
 };
 
 
@@ -28,7 +43,7 @@ void SDL_EventSystem::Update(double time)
 	{
 		if (sdlEvent.type == SDL_WINDOWEVENT)
 		{
-			processWindowEvent(sdlEvent.window.windowID, WINDOW_EVENT_TYPE_MAP[sdlEvent.window.event], sdlEvent.window.data1, sdlEvent.window.data2);
+			processWindowEvent(sdlEvent.window.windowID, WINDOW_EVENT_TYPE_MAP.at(sdlEvent.window.event), sdlEvent.window.data1, sdlEvent.window.data2);
 		}
 	}
 }

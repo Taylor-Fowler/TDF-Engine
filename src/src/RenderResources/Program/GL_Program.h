@@ -19,27 +19,27 @@ public:
 	void Use() override;
 
 
-	bool SendParam(std::string& parameterName, float v0) override;
-	bool SendParam(std::string& parameterName, float v0, float v1)override;
-	bool SendParam(std::string& parameterName, float v0, float v1, float v2) override;
-	bool SendParam(std::string& parameterName, float v0, float v1, float v2, float v3) override;
-	bool SendParam(std::string& parameterName, float *v0, unsigned int parameterSize, unsigned int arraySize) override;
-	bool SendParam(std::string& parameterName, float matrix[16]) override;
+	bool SendParam(const std::string& parameterName, float v0) override;
+	bool SendParam(const std::string& parameterName, float v0, float v1)override;
+	bool SendParam(const std::string& parameterName, float v0, float v1, float v2) override;
+	bool SendParam(const std::string& parameterName, float v0, float v1, float v2, float v3) override;
+	bool SendParam(const std::string& parameterName, float *v0, unsigned int parameterSize, unsigned int arraySize) override;
+	bool SendParam(const std::string& parameterName, const float matrix[16]) override;
 
 
-	bool SendParam(std::string& parameterName, int v0) override;
-	bool SendParam(std::string& parameterName, int v0, int v1) override;
-	bool SendParam(std::string& parameterName, int v0, int v1, int v2) override;
-	bool SendParam(std::string& parameterName, int v0, int v1, int v2, int v3) override;
-	bool SendParam(std::string& parameterName, int *v0, unsigned int parameterSize, unsigned int arraySize) override;
+	bool SendParam(const std::string& parameterName, int v0) override;
+	bool SendParam(const std::string& parameterName, int v0, int v1) override;
+	bool SendParam(const std::string& parameterName, int v0, int v1, int v2) override;
+	bool SendParam(const std::string& parameterName, int v0, int v1, int v2, int v3) override;
+	bool SendParam(const std::string& parameterName, int *v0, unsigned int parameterSize, unsigned int arraySize) override;
 
-	bool SendParam(std::string& parameterName, unsigned int v0) override;
-	bool SendParam(std::string& parameterName, unsigned int v0, unsigned int v1) override;
-	bool SendParam(std::string& parameterName, unsigned int v0, unsigned int v1, unsigned int v2) override;
-	bool SendParam(std::string& parameterName, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3) override;
-	bool SendParam(std::string& parameterName, unsigned int *v0, unsigned int parameterSize, unsigned int arraySize) override;
+	bool SendParam(const std::string& parameterName, unsigned int v0) override;
+	bool SendParam(const std::string& parameterName, unsigned int v0, unsigned int v1) override;
+	bool SendParam(const std::string& parameterName, unsigned int v0, unsigned int v1, unsigned int v2) override;
+	bool SendParam(const std::string& parameterName, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3) override;
+	bool SendParam(const std::string& parameterName, unsigned int *v0, unsigned int parameterSize, unsigned int arraySize) override;
 
 
 private:
-	int getUniformLocation(std::string& name);
+	int getUniformLocation(const std::string& name);
 };

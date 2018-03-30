@@ -65,12 +65,16 @@ std::shared_ptr<GL_Mesh> Loader3D::initialiseFromSceneGL(const aiScene * pScene)
 		if (assimpMesh->HasNormals())
 			setNormals(assimpMesh, meshData);
 
+		if (assimpMesh->HasTextureCoords(0))
+			SetTextureCoordinates(assimpMesh, meshData.get());
+
 		setIndices(assimpMesh, meshData);
 	}
 
 	mesh->m_rootNode = std::make_shared<Mesh_Node>();
 
 	recursiveProcessNode(pScene->mRootNode, mesh->m_rootNode, mesh->m_meshData);
+	mesh->initialise();
 
 	return mesh;
 }
@@ -118,6 +122,16 @@ void Loader3D::setIndices(const aiMesh * assimpMesh, std::shared_ptr<Mesh_Data>&
 		mesh->m_indices.push_back(face->mIndices[0]);
 		mesh->m_indices.push_back(face->mIndices[1]);
 		mesh->m_indices.push_back(face->mIndices[2]);
+	}
+}
+
+void Loader3D::SetTextureCoordinates(const aiMesh * assimpMesh, Mesh_Data * const mesh)
+{
+	mesh->m_textureCoordinates.resize(assimpMesh->mNumVertices * 2);
+	for (unsigned int i = 0; i < assimpMesh->mNumVertices; ++i)
+	{
+		mesh->m_textureCoordinates[i * 2] = assimpMesh->mTextureCoords[0][i].x;
+		mesh->m_textureCoordinates[i * 2 + 1] = assimpMesh->mTextureCoords[0][i].y;
 	}
 }
 

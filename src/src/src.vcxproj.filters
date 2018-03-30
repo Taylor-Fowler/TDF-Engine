@@ -58,6 +58,18 @@
     <Filter Include="src\Engine\EventSystem\Collections">
       <UniqueIdentifier>{46440d0f-e4d1-4ba8-949a-14c3287b6393}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Utilities">
+      <UniqueIdentifier>{00434635-561e-43c4-b44d-2bb607f75ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Framebuffer\Builder">
+      <UniqueIdentifier>{8621bf98-d4f3-424c-91ea-cf2eee7d63e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Components\Transform">
+      <UniqueIdentifier>{04d31ca8-fed6-4f55-8e04-71eca64f2c83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\CustomScenes">
+      <UniqueIdentifier>{5a735eca-7286-4d3b-bb00-ca38e8219c8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +116,30 @@
     </ClCompile>
     <ClCompile Include="Engine\EventSystem\SDL_EventSystem.cpp">
       <Filter>src\Engine\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Time.cpp">
+      <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Framebuffer\GL_Framebuffer.cpp">
+      <Filter>src\RenderResources\Framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Texture\GL_Texture.cpp">
+      <Filter>src\RenderResources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Texture\Texture.cpp">
+      <Filter>src\RenderResources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\ImageLoader.cpp">
+      <Filter>src\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Transform\Transform.cpp">
+      <Filter>src\Engine\Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Camera\Camera.cpp">
+      <Filter>src\Engine\Components\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CustomScenes\HeroScene.cpp">
+      <Filter>src\Engine\CustomScenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +214,42 @@
     </ClInclude>
     <ClInclude Include="Engine\EventSystem\Collections\WindowEventMap.h">
       <Filter>src\Engine\EventSystem\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine.h">
+      <Filter>src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Time.h">
+      <Filter>src\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Texture\GL_Texture.h">
+      <Filter>src\RenderResources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Texture\Texture.h">
+      <Filter>src\RenderResources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Framebuffer\Framebuffer.h">
+      <Filter>src\RenderResources\Framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Framebuffer\GL_Framebuffer.h">
+      <Filter>src\RenderResources\Framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Framebuffer\Builder\FramebufferBuilder.h">
+      <Filter>src\RenderResources\Framebuffer\Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\ImageLoader.h">
+      <Filter>src\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene.h">
+      <Filter>src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Transform\Transform.h">
+      <Filter>src\Engine\Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Camera\Camera.h">
+      <Filter>src\Engine\Components\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CustomScenes\HeroScene.h">
+      <Filter>src\Engine\CustomScenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

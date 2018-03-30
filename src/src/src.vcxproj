@@ -19,36 +19,53 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Components\Camera\Camera.cpp" />
+    <ClCompile Include="Engine\Components\Transform\Transform.cpp" />
+    <ClCompile Include="Engine\CustomScenes\HeroScene.cpp" />
     <ClCompile Include="Engine\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Engine\EventSystem\SDL_EventSystem.cpp" />
     <ClCompile Include="Engine\RenderLoop.cpp" />
     <ClCompile Include="Engine\Window\SDL_MyWindow.cpp" />
     <ClCompile Include="IO\FileReadWrite.cpp" />
+    <ClCompile Include="IO\ImageLoader.cpp" />
     <ClCompile Include="IO\Loader3D.cpp" />
     <ClCompile Include="IO\SDL_ReadWrite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderResources\Factory\GL_ResourceFactory.cpp" />
     <ClCompile Include="RenderResources\Factory\RenderResourceFactory.cpp" />
+    <ClCompile Include="RenderResources\Framebuffer\GL_Framebuffer.cpp" />
     <ClCompile Include="RenderResources\Mesh\GL_Mesh.cpp" />
     <ClCompile Include="RenderResources\Program\GL_Program.cpp" />
     <ClCompile Include="RenderResources\ResourceManager.cpp" />
     <ClCompile Include="RenderResources\ShaderParameter\ShaderParamList.cpp" />
     <ClCompile Include="RenderResources\Shader\GL_Shader.cpp" />
+    <ClCompile Include="RenderResources\Texture\GL_Texture.cpp" />
+    <ClCompile Include="RenderResources\Texture\Texture.cpp" />
+    <ClCompile Include="Utilities\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Components\Camera\Camera.h" />
+    <ClInclude Include="Engine\Components\Transform\Transform.h" />
+    <ClInclude Include="Engine\CustomScenes\HeroScene.h" />
+    <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\EventSystem\Collections\WindowEventMap.h" />
     <ClInclude Include="Engine\EventSystem\EventDefs.h" />
     <ClInclude Include="Engine\EventSystem\EventInterfaces\IWindowEvents.h" />
     <ClInclude Include="Engine\EventSystem\EventSystem.h" />
     <ClInclude Include="Engine\EventSystem\SDL_EventSystem.h" />
     <ClInclude Include="Engine\RenderLoop.h" />
+    <ClInclude Include="Engine\Scene.h" />
     <ClInclude Include="Engine\Window\SDL_MyWindow.h" />
     <ClInclude Include="Engine\Window\Window.h" />
     <ClInclude Include="IO\FileReadWrite.h" />
+    <ClInclude Include="IO\ImageLoader.h" />
     <ClInclude Include="IO\Loader3D.h" />
     <ClInclude Include="IO\SDL_ReadWrite.h" />
     <ClInclude Include="RenderResources\Factory\GL_ResourceFactory.h" />
     <ClInclude Include="RenderResources\Factory\RenderResourceFactory.h" />
+    <ClInclude Include="RenderResources\Framebuffer\Builder\FramebufferBuilder.h" />
+    <ClInclude Include="RenderResources\Framebuffer\Framebuffer.h" />
+    <ClInclude Include="RenderResources\Framebuffer\GL_Framebuffer.h" />
     <ClInclude Include="RenderResources\IRender.h" />
     <ClInclude Include="RenderResources\Material\Material.h" />
     <ClInclude Include="RenderResources\Mesh\GL_Mesh.h" />
@@ -60,6 +77,9 @@
     <ClInclude Include="RenderResources\ShaderParameter\ShaderParamList.h" />
     <ClInclude Include="RenderResources\Shader\GL_Shader.h" />
     <ClInclude Include="RenderResources\Shader\Shader.h" />
+    <ClInclude Include="RenderResources\Texture\GL_Texture.h" />
+    <ClInclude Include="RenderResources\Texture\Texture.h" />
+    <ClInclude Include="Utilities\Time.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -118,12 +138,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glm;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\include;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\DevIL;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glm;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\include;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\assimp\lib;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\lib\Release\Win32;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\DevIL;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\assimp\lib;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\lib\Release\Win32;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DevIL.lib;assimp.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,13 +160,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glm;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\include;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\DevIL;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glm;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\include;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\assimp\lib;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\lib\Release\Win32;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\DevIL;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\assimp\lib;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\glew\lib\Release\Win32;C:\Users\User\Google Drive\University\Year 2 2017-2018\3D Graphics Programming\TDF Engine\src\lib\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DevIL.lib;assimp.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

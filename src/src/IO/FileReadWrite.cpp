@@ -10,3 +10,14 @@ bool FileReadWrite::FileExists(const std::string &file)
 
 	return true;
 }
+
+std::string FileReadWrite::ImportTextFile(const std::string & file)
+{
+	std::ifstream buffer(file);
+	std::string source(std::istreambuf_iterator<char>(buffer), (std::istreambuf_iterator<char>()));
+	// TODO: Throw Exception?
+	//if(source.empty()) 
+	//		return nullptr;
+
+	return source;
+}

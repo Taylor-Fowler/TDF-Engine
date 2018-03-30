@@ -59,34 +59,66 @@ bool GL_Program::Link()
 void GL_Program::Use()
 {
 	glUseProgram(m_id);
+
+	glValidateProgram(m_id);
+	GLint status = 0;
+	glGetProgramiv(m_id, GL_VALIDATE_STATUS, &status);
+	if (status == GL_FALSE)
+	{
+		std::cout << "Error Validating GL Program" << std::endl;
+	}
 }
 
-bool GL_Program::SendParam(std::string & parameterName, float v0)
+bool GL_Program::SendParam(const std::string & parameterName, float v0)
+{
+	int location = getUniformLocation(parameterName);
+
+	if (location == -1)
+		return false;
+
+	glUniform1f(location, v0);
+	return true;
+}
+
+bool GL_Program::SendParam(const std::string & parameterName, float v0, float v1)
+{
+	int location = getUniformLocation(parameterName);
+
+	if (location == -1)
+		return false;
+
+	glUniform2f(location, v0, v1);
+	return true;
+}
+
+bool GL_Program::SendParam(const std::string & parameterName, float v0, float v1, float v2)
+{
+	int location = getUniformLocation(parameterName);
+
+	if (location == -1)
+		return false;
+
+	glUniform3f(location, v0, v1, v2);
+	return true;
+}
+
+bool GL_Program::SendParam(const std::string & parameterName, float v0, float v1, float v2, float v3)
+{
+	int location = getUniformLocation(parameterName);
+
+	if (location == -1)
+		return false;
+
+	glUniform4f(location, v0, v1, v2, v3);
+	return true;
+}
+
+bool GL_Program::SendParam(const std::string & parameterName, float * v0, unsigned int parameterSize, unsigned int arraySize)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, float v0, float v1)
-{
-	return false;
-}
-
-bool GL_Program::SendParam(std::string & parameterName, float v0, float v1, float v2)
-{
-	return false;
-}
-
-bool GL_Program::SendParam(std::string & parameterName, float v0, float v1, float v2, float v3)
-{
-	return false;
-}
-
-bool GL_Program::SendParam(std::string & parameterName, float * v0, unsigned int parameterSize, unsigned int arraySize)
-{
-	return false;
-}
-
-bool GL_Program::SendParam(std::string & parameterName, float matrix[16])
+bool GL_Program::SendParam(const std::string & parameterName, const float matrix[16])
 {
 	int location = getUniformLocation(parameterName);
 	
@@ -97,57 +129,57 @@ bool GL_Program::SendParam(std::string & parameterName, float matrix[16])
 	return true;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, int v0)
+bool GL_Program::SendParam(const std::string & parameterName, int v0)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, int v0, int v1)
+bool GL_Program::SendParam(const std::string & parameterName, int v0, int v1)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, int v0, int v1, int v2)
+bool GL_Program::SendParam(const std::string & parameterName, int v0, int v1, int v2)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, int v0, int v1, int v2, int v3)
+bool GL_Program::SendParam(const std::string & parameterName, int v0, int v1, int v2, int v3)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, int * v0, unsigned int parameterSize, unsigned int arraySize)
+bool GL_Program::SendParam(const std::string & parameterName, int * v0, unsigned int parameterSize, unsigned int arraySize)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, unsigned int v0)
+bool GL_Program::SendParam(const std::string & parameterName, unsigned int v0)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, unsigned int v0, unsigned int v1)
+bool GL_Program::SendParam(const std::string & parameterName, unsigned int v0, unsigned int v1)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, unsigned int v0, unsigned int v1, unsigned int v2)
+bool GL_Program::SendParam(const std::string & parameterName, unsigned int v0, unsigned int v1, unsigned int v2)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3)
+bool GL_Program::SendParam(const std::string & parameterName, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3)
 {
 	return false;
 }
 
-bool GL_Program::SendParam(std::string & parameterName, unsigned int * v0, unsigned int parameterSize, unsigned int arraySize)
+bool GL_Program::SendParam(const std::string & parameterName, unsigned int * v0, unsigned int parameterSize, unsigned int arraySize)
 {
 	return false;
 }
 
-int GL_Program::getUniformLocation(std::string &name)
+int GL_Program::getUniformLocation(const std::string &name)
 {
 	std::map<std::string, int>::iterator it;
 	

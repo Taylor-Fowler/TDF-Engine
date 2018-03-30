@@ -26,6 +26,7 @@ private:
 	void setVertices(const aiMesh *assimpMesh, std::shared_ptr<Mesh_Data> &mesh);
 	void setNormals(const aiMesh *assimpMesh, std::shared_ptr<Mesh_Data> &mesh);
 	void setIndices(const aiMesh *assimpMesh, std::shared_ptr<Mesh_Data> &mesh);
+	void SetTextureCoordinates(const aiMesh *assimpMesh, Mesh_Data* const mesh);
 
 	void recursiveProcessNode(aiNode *process, std::shared_ptr<Mesh_Node> &meshNode, std::vector<std::shared_ptr<Mesh_Data>> &meshData);
 

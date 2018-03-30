@@ -3,7 +3,7 @@
 #include "GL_Shader.h"
 #include "GL\glew.h"
 
-GL_Shader::GL_Shader(const char ** string, SHADER_TYPE type)
+GL_Shader::GL_Shader(std::string source, SHADER_TYPE type)
 	: Shader(type)
 {
 	if(type == VERTEX)
@@ -17,7 +17,9 @@ GL_Shader::GL_Shader(const char ** string, SHADER_TYPE type)
 	else if (type == COMPUTE)
 		m_id = glCreateShader(GL_COMPUTE_SHADER);
 
-	glShaderSource(m_id, 1, string, 0);
+	auto glchar = static_cast<const GLchar*>(source.c_str());
+
+	glShaderSource(m_id, 1, &glchar, 0);
 	glCompileShader(m_id);
 
 	GLint isCompiled = 0;

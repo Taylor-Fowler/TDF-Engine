@@ -11,8 +11,8 @@ private:
 	SDL_GLContext m_glContext;
 
 public:
-	SDL_MyWindow();
-	SDL_MyWindow(unsigned int width, unsigned int height, unsigned int x, unsigned int y, std::string title);
+	SDL_MyWindow(EventSystem& eventSystem);
+	SDL_MyWindow(EventSystem& eventSystem, unsigned int width, unsigned int height, unsigned int x, unsigned int y, std::string title);
 	~SDL_MyWindow() override;
 
 	void SwapBuffer() override;
@@ -23,8 +23,8 @@ public:
 	void MoveWindow(int x, int y) override {};
 	void ResizeWindow(int x, int y) override {};
 	void ChangeWindowSize(int x, int y) override {};
-	void CloseWindow() override {};
+	void CloseWindow() override;
 
 private:
-	void init();
+	void init(EventSystem& eventSystem) override;
 };
