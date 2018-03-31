@@ -75,7 +75,7 @@ public:
 
 
 	virtual std::shared_ptr<Shader> CreateShader(const std::string& name, Shader::SHADER_TYPE type) const = 0;
-	virtual std::shared_ptr<Program> CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders) const = 0;
+	virtual std::shared_ptr<Program> CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders, const std::string& name) const = 0;
 	
 
 };

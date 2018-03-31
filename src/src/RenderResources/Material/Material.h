@@ -1,5 +1,5 @@
 #pragma once
-
+#include <memory>
 
 // Material Definition within TDF:
 // ========================================================
@@ -9,19 +9,23 @@
 // which, as the active rendering program, will trigger the shader parameter collection to be sent down the rendering pipeline.
 
 #include "../IRender.h"
+#include "../ShaderParameter/ShaderParamList.h"
 
-class Material : public IRender
+class Renderer;
+class ShaderModule;
+
+class Material : public ShaderParamList
 {
+	friend class Renderer;
 private:
-	unsigned int m_programID; // The ID of the Shader Program that this material is registered to
-
-
+	std::shared_ptr<Renderer>		m_attachedTo	= nullptr;
 
 public:
-	Material() {};
+	Material(std::shared_ptr<ShaderModule> module);
+
 	~Material() override {};
 
-	void Render(std::shared_ptr<Program>& program) const override {};
+	void Render(std::shared_ptr<Program>& program) const override;
 
 
 

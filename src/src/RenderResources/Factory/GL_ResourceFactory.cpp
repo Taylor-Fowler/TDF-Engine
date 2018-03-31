@@ -5,6 +5,8 @@
 #include "..\Program\GL_Program.h"
 #include "..\Shader\GL_Shader.h"
 
+#include "..\..\Engine\RenderLoop.h"
+
 GL_ResourceFactory::GL_ResourceFactory(RenderLoop * const renderLoop, FileReadWrite * const fileRW, ResourceManager *const resourceManager, Loader3D *const loader3D, ImageLoader *const iLoader)
 	:
 	RenderResourceFactory(renderLoop, fileRW, resourceManager, loader3D, iLoader)
@@ -84,7 +86,7 @@ std::shared_ptr<Shader> GL_ResourceFactory::CreateShader(const std::string & nam
 	return std::make_shared<GL_Shader>(m_fileRW->ImportTextFile(name), type);
 }
 
-std::shared_ptr<Program> GL_ResourceFactory::CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders) const
+std::shared_ptr<Program> GL_ResourceFactory::CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders, const std::string& name) const
 {
 	if(shaders.size() == 0)
 		return std::shared_ptr<Program>();
@@ -93,11 +95,15 @@ std::shared_ptr<Program> GL_ResourceFactory::CreateProgram(std::vector<std::shar
 	for (auto &shader : shaders)
 	{
 		if (!program->AttachShader(shader))
-		{
 			return std::shared_ptr<Program>();
-		}
 	}
 
-	program->Link();
-	return program;
+	if (program->Link())
+	{
+		auto validName = m_renderLoop->NextValidProgramName(name);
+		m_renderLoop->AddProgram(program, validName);
+		return program;
+	}
+	
+	return std::shared_ptr<Program>();
 }

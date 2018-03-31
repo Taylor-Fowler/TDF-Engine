@@ -5,6 +5,8 @@
 #include "ShaderParameters.h"
 #include "../IRender.h"
 
+class ShaderModule;
+
 class ShaderParamList : public IRender
 {
 private:
@@ -14,9 +16,12 @@ private:
 	std::map<std::string, std::weak_ptr<Texture>> m_textureParams;
 
 	std::map<std::string, SHADER_PARAMETER_TYPE> m_allParams;
+protected:
+	std::shared_ptr<ShaderModule> m_subscribedTo = nullptr;
 
 public:
-	~ShaderParamList() override {};
+	ShaderParamList(std::shared_ptr<ShaderModule> shaderModule);
+	~ShaderParamList() override;
 
 	bool AddParameter(const std::string &paramName, FloatData &data);
 	bool AddParameter(const std::string &paramName, std::unique_ptr<FloatData> data);

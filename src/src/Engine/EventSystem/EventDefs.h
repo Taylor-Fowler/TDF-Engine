@@ -22,6 +22,13 @@
 #define ES_WIND_SIZE_CHANGE 0x0005
 #define ES_WIND_CLOSE 0x0006
 
+// Mouse Buttons Symbols
+#define ES_MOUSE_BTN_L 0x0000
+#define ES_MOUSE_BTN_R 0x0001
+#define ES_MOUSE_BTN_M 0x0002
+#define ES_MOUSE_BTN_X1 0x0003
+#define ES_MOUSE_BTN_X2 0x0004
+
 // Keyboard key symbols
 
 // 0 - 9

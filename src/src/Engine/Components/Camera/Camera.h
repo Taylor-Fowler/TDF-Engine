@@ -1,17 +1,36 @@
 #pragma once
+#include "..\Component.h"
 #include "..\Transform\Transform.h"
 
-class Camera : IRender
+
+class Camera : public Component, public IRender
 {
+	friend class GameObject;
+	friend int main(int argc, char *argv[]);
+public:
+	glm::vec4 m_clearColour = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+
+private:
+	static std::vector<Camera*> _allCameras;
+	static Camera* _mainCamera;
+
 protected:
 	Transform m_transform;
 
 	glm::mat4 m_viewMatrix;
 	glm::vec3 m_viewDirection = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 m_rightDirection = glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 m_upDirection = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	const glm::vec3 DEFAULT_VIEW = glm::vec3(0.0f, 0.0f, -1.0f);
+	const glm::vec3 DEFAULT_RIGHT = glm::vec3(1.0f, 0.0f, 0.0f);
+	const glm::vec3 DEFAULT_UP = glm::vec3(0.0f, 1.0f, 0.0f);
+
+
 public:
-	Camera();
+	static Camera* const main();
+	static std::vector<Camera*> AllCameras();
+
 	void Render(std::shared_ptr<Program>& program) const override;
 
 	void SetPosition(glm::vec3 newPosition);
@@ -30,8 +49,22 @@ public:
 	void RotateY(float alpha);
 	void RotateZ(float alpha);
 
+	glm::vec3 Forward()
+	{
+		return m_viewDirection;
+	}
+	glm::vec3 Up()
+	{
+		return DEFAULT_UP * glm::mat3(m_viewMatrix);
+	}
+	glm::vec3 Right()
+	{
+		return DEFAULT_RIGHT * glm::mat3(m_viewMatrix);
+	}
 
 private:
+	Camera();
+	~Camera();
 	void buildViewDirection();
 	void rebuildViewMatrix();
 

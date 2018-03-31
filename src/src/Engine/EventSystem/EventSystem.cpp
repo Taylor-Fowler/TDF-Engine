@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "EventSystem.h"
 #include "EventDefs.h"
 
@@ -9,6 +11,48 @@ void EventSystem::SubscribeWindowEvents(std::shared_ptr<IWindowEvents> observer,
 void EventSystem::UnsubscribeWindowEvents(unsigned int windowID)
 {
 	m_windowEvents.Remove(windowID);
+}
+
+void EventSystem::SubscribeKeyUpEvents(std::shared_ptr<IKeyUp> observer)
+{
+	m_keyUpEvents.push_back(observer);
+}
+
+void EventSystem::UnsubscribeKeyUpEvents(std::shared_ptr<IKeyUp> observer)
+{
+	auto handler = std::find(m_keyUpEvents.begin(), m_keyUpEvents.end(), observer);
+	if (handler != m_keyUpEvents.end())
+		m_keyUpEvents.erase(handler);
+}
+
+void EventSystem::SubscribeKeyDownEvents(std::shared_ptr<IKeyDown> observer)
+{
+	m_keyDownEvents.push_back(observer);
+}
+
+void EventSystem::UnsubscribeKeyDownEvents(std::shared_ptr<IKeyDown> observer)
+{
+	auto handler = std::find(m_keyDownEvents.begin(), m_keyDownEvents.end(), observer);
+	if (handler != m_keyDownEvents.end())
+		m_keyDownEvents.erase(handler);
+}
+
+bool EventSystem::IsKeyDown(int keycode) const
+{
+	auto search = m_keydown.find(keycode);
+	if (search != m_keydown.end())
+		return search->second;
+
+	return false;
+}
+
+bool EventSystem::IsMouseBtnDown(int btnCode) const
+{
+	auto search = m_mouseBtnDown.find(btnCode);
+	if (search != m_mouseBtnDown.end())
+		return search->second;
+
+	return false;
 }
 
 void EventSystem::processWindowEvent(unsigned int windowID, int eventID, int data1, int data2)
@@ -47,10 +91,17 @@ void EventSystem::processWindowEvent(unsigned int windowID, int eventID, int dat
 	}
 }
 
-void EventSystem::processEvent(int eventType, int eventID, int data1, int data2)
+void EventSystem::processKeyboardEvent(unsigned int eventID, int keycode)
 {
-	if (eventType == ES_EVENT_WINDOW)
+	if (eventID == ES_KEY_UP)
 	{
-
+		for (auto &handler : m_keyUpEvents)
+			handler->KeyUp(keycode);
+	}
+	else
+	{
+		for (auto &handler : m_keyDownEvents)
+			handler->KeyDown(keycode);
 	}
 }
+

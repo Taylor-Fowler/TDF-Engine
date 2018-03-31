@@ -70,6 +70,18 @@
     <Filter Include="src\Engine\CustomScenes">
       <UniqueIdentifier>{5a735eca-7286-4d3b-bb00-ca38e8219c8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\CustomComponents">
+      <UniqueIdentifier>{2b9d5026-14d2-4887-ad5d-c4823778a119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\GameObject">
+      <UniqueIdentifier>{cc3cc6c3-906d-4959-992b-b7c642bdd88c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\ShaderModule">
+      <UniqueIdentifier>{c34b3a48-7a7c-43e0-9d11-630a8ea8edeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Components\Renderer">
+      <UniqueIdentifier>{853d7494-462e-4e02-83a4-634127597939}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -140,6 +152,24 @@
     </ClCompile>
     <ClCompile Include="Engine\CustomScenes\HeroScene.cpp">
       <Filter>src\Engine\CustomScenes</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomComponents\BasicCameraController.cpp">
+      <Filter>src\CustomComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\GameObject.cpp">
+      <Filter>src\Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Component.cpp">
+      <Filter>src\Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\ShaderModule\ShaderModule.cpp">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Renderer\Renderer.cpp">
+      <Filter>src\Engine\Components\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Material\Material.cpp">
+      <Filter>src\RenderResources\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +280,24 @@
     </ClInclude>
     <ClInclude Include="Engine\CustomScenes\HeroScene.h">
       <Filter>src\Engine\CustomScenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomComponents\BasicCameraController.h">
+      <Filter>src\CustomComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventSystem\EventInterfaces\IKeyboardEvents.h">
+      <Filter>src\Engine\EventSystem\EventInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\GameObject.h">
+      <Filter>src\Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Component.h">
+      <Filter>src\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\ShaderModule\ShaderModule.h">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Renderer\Renderer.h">
+      <Filter>src\Engine\Components\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

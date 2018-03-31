@@ -1,5 +1,17 @@
 #include "ShaderParamList.h"
+#include "..\ShaderModule\ShaderModule.h"
 
+
+ShaderParamList::ShaderParamList(std::shared_ptr<ShaderModule> shaderModule)
+{
+	m_subscribedTo = shaderModule;
+	m_subscribedTo->Subscribe(std::shared_ptr<ShaderParamList>(this));
+}
+
+ShaderParamList::~ShaderParamList()
+{
+	m_subscribedTo->Unsubscribe(std::shared_ptr<ShaderParamList>(this));
+}
 
 bool ShaderParamList::AddParameter(const std::string & paramName, FloatData & data)
 {

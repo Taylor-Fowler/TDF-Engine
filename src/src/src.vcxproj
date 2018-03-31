@@ -19,11 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CustomComponents\BasicCameraController.cpp" />
     <ClCompile Include="Engine\Components\Camera\Camera.cpp" />
+    <ClCompile Include="Engine\Components\Component.cpp" />
+    <ClCompile Include="Engine\Components\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Components\Transform\Transform.cpp" />
     <ClCompile Include="Engine\CustomScenes\HeroScene.cpp" />
     <ClCompile Include="Engine\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Engine\EventSystem\SDL_EventSystem.cpp" />
+    <ClCompile Include="Engine\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\RenderLoop.cpp" />
     <ClCompile Include="Engine\Window\SDL_MyWindow.cpp" />
     <ClCompile Include="IO\FileReadWrite.cpp" />
@@ -34,9 +38,11 @@
     <ClCompile Include="RenderResources\Factory\GL_ResourceFactory.cpp" />
     <ClCompile Include="RenderResources\Factory\RenderResourceFactory.cpp" />
     <ClCompile Include="RenderResources\Framebuffer\GL_Framebuffer.cpp" />
+    <ClCompile Include="RenderResources\Material\Material.cpp" />
     <ClCompile Include="RenderResources\Mesh\GL_Mesh.cpp" />
     <ClCompile Include="RenderResources\Program\GL_Program.cpp" />
     <ClCompile Include="RenderResources\ResourceManager.cpp" />
+    <ClCompile Include="RenderResources\ShaderModule\ShaderModule.cpp" />
     <ClCompile Include="RenderResources\ShaderParameter\ShaderParamList.cpp" />
     <ClCompile Include="RenderResources\Shader\GL_Shader.cpp" />
     <ClCompile Include="RenderResources\Texture\GL_Texture.cpp" />
@@ -44,15 +50,20 @@
     <ClCompile Include="Utilities\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomComponents\BasicCameraController.h" />
     <ClInclude Include="Engine\Components\Camera\Camera.h" />
+    <ClInclude Include="Engine\Components\Component.h" />
+    <ClInclude Include="Engine\Components\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Components\Transform\Transform.h" />
     <ClInclude Include="Engine\CustomScenes\HeroScene.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\EventSystem\Collections\WindowEventMap.h" />
     <ClInclude Include="Engine\EventSystem\EventDefs.h" />
+    <ClInclude Include="Engine\EventSystem\EventInterfaces\IKeyboardEvents.h" />
     <ClInclude Include="Engine\EventSystem\EventInterfaces\IWindowEvents.h" />
     <ClInclude Include="Engine\EventSystem\EventSystem.h" />
     <ClInclude Include="Engine\EventSystem\SDL_EventSystem.h" />
+    <ClInclude Include="Engine\GameObject\GameObject.h" />
     <ClInclude Include="Engine\RenderLoop.h" />
     <ClInclude Include="Engine\Scene.h" />
     <ClInclude Include="Engine\Window\SDL_MyWindow.h" />
@@ -73,6 +84,7 @@
     <ClInclude Include="RenderResources\Program\GL_Program.h" />
     <ClInclude Include="RenderResources\Program\Program.h" />
     <ClInclude Include="RenderResources\ResourceManager.h" />
+    <ClInclude Include="RenderResources\ShaderModule\ShaderModule.h" />
     <ClInclude Include="RenderResources\ShaderParameter\ShaderParameters.h" />
     <ClInclude Include="RenderResources\ShaderParameter\ShaderParamList.h" />
     <ClInclude Include="RenderResources\Shader\GL_Shader.h" />

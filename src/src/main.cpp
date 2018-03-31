@@ -1,18 +1,23 @@
 #include "GL\glew.h"
 #include "SDL.h"
+
 #include "IO\Loader3D.h"
 #include "IO\SDL_ReadWrite.h"
 #include "IO\ImageLoader.h"
-#include "RenderResources\ResourceManager.h"
-#include "RenderResources\Factory\GL_ResourceFactory.h"
-#include "RenderResources\ShaderParameter\ShaderParamList.h"
-#include "Engine\RenderLoop.h"
-#include "Engine\Components\Camera\Camera.h"
+
 #include "Engine\Window\SDL_MyWindow.h"
 #include "Engine\EventSystem\SDL_EventSystem.h"
-#include "Utilities\Time.h"
-#include "RenderResources\Shader\Shader.h"
+#include "Engine\RenderLoop.h"
+#include "Engine\Components\Component.h"
+
+#include "RenderResources\ResourceManager.h"
+#include "RenderResources\Factory\GL_ResourceFactory.h"
+#include "RenderResources\ShaderModule\ShaderModule.h"
 #include "RenderResources\Program\Program.h"
+#include "RenderResources\Shader\Shader.h"
+#include "Utilities\Time.h"
+
+#include "Engine\CustomScenes\HeroScene.h"
 
 
 #include "glm\gtc\type_ptr.hpp"
@@ -26,18 +31,9 @@ RenderLoop renderLoop;
 ResourceManager resourceManager;
 Loader3D loader3D;
 ImageLoader iLoader;
-Camera mainCam;
 
 SDL_MyWindow *mainWindow;
-
-float vertices[] = {
-	0.0f,  0.5f, -1.0f, // Vertex 1 (X, Y)
-	0.5f, -0.5f, -1.0f, // Vertex 2 (X, Y)
-	-0.5f, -0.5f, -1.0f  // Vertex 3 (X, Y)
-};
-
-unsigned int vaoid = 0;
-
+GL_ResourceFactory *resourceFactory;
 
 
 bool Init()
@@ -60,6 +56,8 @@ bool Init()
 		std::cout << glewGetErrorString(e) << std::endl;
 		return false;
 	}
+	resourceFactory = new GL_ResourceFactory(&renderLoop, &readWrite, &resourceManager, &loader3D, &iLoader);
+
 	AppTime::Initialise();
 
 	return true;
@@ -73,69 +71,37 @@ int main(int argc, char *argv[])
 	{
 		return 1;
 	}
+	Component::_eventSystem = &eventSystem;
+	Component::_renderResourceFactory = resourceFactory;
 
-	GL_ResourceFactory resourceFactory(&renderLoop, &readWrite, &resourceManager, &loader3D, &iLoader);
-	std::shared_ptr<Mesh> mesh = resourceFactory.CreateStaticMesh("Assets/Models/Table.obj");
-	std::shared_ptr<Texture> texture = resourceFactory.LoadStaticTexture("Assets/Textures/Table.jpg");
+	// Create the default rendering program and add it to the render loop
+	{
+		std::vector<std::shared_ptr<Shader>> shaders;
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Default.vert", Shader::SHADER_TYPE::VERTEX));
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Default.frag", Shader::SHADER_TYPE::FRAGMENT));
 
-	std::shared_ptr<Mesh> mesh2 = resourceFactory.CreateStaticMesh("Assets/Models/Cube.obj");
-
-	std::vector<std::shared_ptr<Shader>> shaders;
-	shaders.push_back(resourceFactory.CreateShader("Assets/GLSL Source/Default.vert", Shader::SHADER_TYPE::VERTEX));
-	shaders.push_back(resourceFactory.CreateShader("Assets/GLSL Source/Default.frag", Shader::SHADER_TYPE::FRAGMENT));
-	
-	auto program = resourceFactory.CreateProgram(shaders);
-	program->Use();
-
-	ShaderParamList spl;
-	spl.AddParameter("vColour", std::move(std::make_unique<FloatData3>(0.0f, 1.0f, 0.0f)));
-
-	glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.0f, 2.0f, -2.0f), glm::vec3(0.0f, 2.0f, 4.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-	glm::mat4 projectionMatrix = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
-	program->SendParam("projectionMatrix", glm::value_ptr(projectionMatrix));
-	program->SendParam("modelMatrix", glm::value_ptr(glm::mat4(1.0f)));
+		auto program = resourceFactory->CreateProgram(shaders, "Default");
+		program->Use();
+		glm::mat4 projectionMatrix = glm::perspective(1.0472f, 800.0f * 1.0f / 600.0f, 0.02f, 1000.0f);
+		program->SendParam("projectionMatrix", glm::value_ptr(projectionMatrix));
+		program->SendParam("modelMatrix", glm::value_ptr(glm::mat4(1.0f)));
 
 
-	glGenVertexArrays(1, &vaoid);
-	glBindVertexArray(vaoid);
-	unsigned int a;
-	glGenBuffers(1, &a);
-	glBindBuffer(GL_ARRAY_BUFFER, a);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(0);
+		renderLoop.m_defaultProgram = program;
+		renderLoop.m_defaultModule = std::make_shared<ShaderModule>(program);
+	}
 
+	HeroScene scene(*resourceFactory, renderLoop);
 
 
 	while (!mainWindow->IsClosed())
 	{		
 		AppTime::UpdateDeltaTime();
 		double deltaTime = AppTime::GetDeltaTime();
+		renderLoop.RenderFrame();
 
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		spl.Render(program);
-		mesh->Render(program);
-		mesh2->Render(program);
-		mainCam.Render(program);
-		mainCam.RotateY(0.01f);
-		glm::vec3 translation = viewMatrix[3];
-
-		//viewMatrix = glm::translate(viewMatrix, translation);
-		//viewMatrix = glm::rotate(viewMatrix, 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//viewMatrix = glm::translate(viewMatrix, -translation);
-		//program->SendParam("viewMatrix", glm::value_ptr(viewMatrix));
-
-		program->SendParam("modelMatrix", glm::value_ptr(glm::mat4(1.0f)));
-		glBindVertexArray(vaoid);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		if (GLenum e = glGetError() != GL_NO_ERROR)
-		{
-			std::cout << e << std::endl;
-		}
+		for (auto& component : Component::_allComponents)
+			component->Update();
 
 		mainWindow->SwapBuffer();
 		eventSystem.Update(deltaTime);
