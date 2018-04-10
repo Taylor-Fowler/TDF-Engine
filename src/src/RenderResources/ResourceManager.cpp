@@ -56,7 +56,7 @@ std::shared_ptr<Texture> ResourceManager::FindTexture(const std::string & name)
 	return std::shared_ptr<Texture>();
 }
 
-bool ResourceManager::AddTexture(const std::string & name, std::shared_ptr<Texture>& texture)
+bool ResourceManager::AddTexture(const std::string & name, std::shared_ptr<Texture> texture)
 {
 	// It already exists
 	if (FindTexture(name) != nullptr)

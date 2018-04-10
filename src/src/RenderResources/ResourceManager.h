@@ -22,6 +22,6 @@ public:
 	bool AddMesh(const std::string &name, std::shared_ptr<Mesh>& mesh);
 
 	std::shared_ptr<Texture> FindTexture(const std::string &name);
-	bool AddTexture(const std::string &name, std::shared_ptr<Texture>& texture);
+	bool AddTexture(const std::string &name, std::shared_ptr<Texture> texture);
 
 };

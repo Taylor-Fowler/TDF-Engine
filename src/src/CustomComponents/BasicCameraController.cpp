@@ -1,26 +1,91 @@
 #include "BasicCameraController.h"
+#include "..\Engine\Components\Geometry\Terrain.h"
 
 BasicCameraController::BasicCameraController()
 {
 	m_camera = Camera::main();
 }
 
+void BasicCameraController::SetTerrain(Terrain * terrain)
+{
+	if (terrain != nullptr)
+	{
+		m_terrain = terrain;
+		m_camera->SetPosition({ 0.0f, m_terrain->GetAbsoluteHeight(0.0f, 0.0f) + m_offset, 0.0f });
+	}
+}
+
+void BasicCameraController::move()
+{
+	if (!m_jumping)
+	{
+		glm::vec3 moveDirection = m_camera->Position();
+
+		if (eventSystem()->IsKeyDown(ES_KEYC_W))
+			m_camera->Translate(m_camera->Forward() * m_speed);
+		if (eventSystem()->IsKeyDown(ES_KEYC_A))
+			m_camera->Translate(m_camera->Right() * -m_speed);
+		if (eventSystem()->IsKeyDown(ES_KEYC_S))
+			m_camera->Translate(m_camera->Forward() * -m_speed);
+		if (eventSystem()->IsKeyDown(ES_KEYC_D))
+			m_camera->Translate(m_camera->Right() * m_speed);
+
+		if (eventSystem()->IsKeyDown(ES_KEYC_SPACE))
+		{
+			moveDirection = m_camera->Position() - moveDirection;
+			moveDirection.y = 0.0f;
+			if (moveDirection != glm::vec3(0.0f))
+				moveDirection = glm::normalize(moveDirection);
+
+			
+			m_velocity = glm::vec3(0.0f, 0.4f, 0.0f) + moveDirection * m_speed * 0.5f;
+			m_camera->Translate(glm::vec3(0.0f, 0.1f, 0.0f));
+			m_jumping = true;
+		}
+	}
+	//if (eventSystem()->IsKeyDown(ES_KEYC_Q))
+	//	m_camera->Translate(m_camera->Up() * speed);
+	//if (eventSystem()->IsKeyDown(ES_KEYC_E))
+	//	m_camera->Translate(m_camera->Up() * -speed);
+}
+
+void BasicCameraController::processJump()
+{
+	if (!m_jumping) return;
+	m_velocity.y -= 0.027f;
+	m_camera->Translate(m_velocity);
+
+	if (m_terrain != nullptr)
+	{
+		glm::vec3 pos = m_camera->Position();
+		if (pos.y < m_terrain->GetAbsoluteHeight(pos.x, pos.z) + m_offset)
+		{
+			m_jumping = false;
+			m_velocity = { 0.0f, 0.0f, 0.0f };
+		}
+	}
+
+}
+
+void BasicCameraController::ground()
+{
+	glm::vec3 pos = m_camera->Position();
+	if (m_terrain != nullptr)
+		m_camera->SetPositionY(m_terrain->GetAbsoluteHeight(pos.x, pos.z) + m_offset);
+}
+
 void BasicCameraController::Update()
 {
-	float speed = 0.01f;
+	glm::vec3 pos = m_camera->Position();
 
-	if (eventSystem()->IsKeyDown(ES_KEYC_W))
-		m_camera->Translate(m_camera->Forward() * speed);
-	if (eventSystem()->IsKeyDown(ES_KEYC_A))
-		m_camera->Translate(m_camera->Right() * -speed);
-	if (eventSystem()->IsKeyDown(ES_KEYC_S))
-		m_camera->Translate(m_camera->Forward() * -speed);
-	if (eventSystem()->IsKeyDown(ES_KEYC_D))
-		m_camera->Translate(m_camera->Right() * speed);
-	if (eventSystem()->IsKeyDown(ES_KEYC_Q))
-		m_camera->Translate(m_camera->Up() * speed);
-	if (eventSystem()->IsKeyDown(ES_KEYC_E))
-		m_camera->Translate(m_camera->Up() * -speed);
+	move();
+	processJump();
+	
+	if (pos != m_camera->Position() && !m_jumping)
+		ground();
+
+
+	
 
 	// Only move the camera if the lmb is down
 	if (m_lmbDown)

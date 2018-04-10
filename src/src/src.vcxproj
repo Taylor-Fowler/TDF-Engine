@@ -20,8 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CustomComponents\BasicCameraController.cpp" />
+    <ClCompile Include="CustomComponents\ShaderSubscribers\Explosion.cpp" />
+    <ClCompile Include="CustomComponents\ShaderSubscribers\FloatyThing.cpp" />
+    <ClCompile Include="CustomComponents\ShaderSubscribers\SphericalDrip.cpp" />
     <ClCompile Include="Engine\Components\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Components\Component.cpp" />
+    <ClCompile Include="Engine\Components\Geometry\Terrain.cpp" />
     <ClCompile Include="Engine\Components\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Components\Transform\Transform.cpp" />
     <ClCompile Include="Engine\CustomScenes\HeroScene.cpp" />
@@ -39,20 +43,29 @@
     <ClCompile Include="RenderResources\Factory\RenderResourceFactory.cpp" />
     <ClCompile Include="RenderResources\Framebuffer\GL_Framebuffer.cpp" />
     <ClCompile Include="RenderResources\Material\Material.cpp" />
+    <ClCompile Include="RenderResources\Mesh\Builder\MeshBuilder.cpp" />
     <ClCompile Include="RenderResources\Mesh\GL_Mesh.cpp" />
     <ClCompile Include="RenderResources\Program\GL_Program.cpp" />
     <ClCompile Include="RenderResources\ResourceManager.cpp" />
+    <ClCompile Include="RenderResources\ShaderModule\ExplosionModule.cpp" />
+    <ClCompile Include="RenderResources\ShaderModule\ReflectionCubeModule.cpp" />
     <ClCompile Include="RenderResources\ShaderModule\ShaderModule.cpp" />
     <ClCompile Include="RenderResources\ShaderParameter\ShaderParamList.cpp" />
     <ClCompile Include="RenderResources\Shader\GL_Shader.cpp" />
     <ClCompile Include="RenderResources\Texture\GL_Texture.cpp" />
     <ClCompile Include="RenderResources\Texture\Texture.cpp" />
+    <ClCompile Include="Utilities\ProceduralContent\WorldGeneration.cpp" />
+    <ClCompile Include="Utilities\Random\PerlinNoise.cpp" />
     <ClCompile Include="Utilities\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomComponents\BasicCameraController.h" />
+    <ClInclude Include="CustomComponents\ShaderSubscribers\Explosion.h" />
+    <ClInclude Include="CustomComponents\ShaderSubscribers\FloatyThing.h" />
+    <ClInclude Include="CustomComponents\ShaderSubscribers\SphericalDrip.h" />
     <ClInclude Include="Engine\Components\Camera\Camera.h" />
     <ClInclude Include="Engine\Components\Component.h" />
+    <ClInclude Include="Engine\Components\Geometry\Terrain.h" />
     <ClInclude Include="Engine\Components\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Components\Transform\Transform.h" />
     <ClInclude Include="Engine\CustomScenes\HeroScene.h" />
@@ -79,11 +92,14 @@
     <ClInclude Include="RenderResources\Framebuffer\GL_Framebuffer.h" />
     <ClInclude Include="RenderResources\IRender.h" />
     <ClInclude Include="RenderResources\Material\Material.h" />
+    <ClInclude Include="RenderResources\Mesh\Builder\MeshBuilder.h" />
     <ClInclude Include="RenderResources\Mesh\GL_Mesh.h" />
     <ClInclude Include="RenderResources\Mesh\Mesh.h" />
     <ClInclude Include="RenderResources\Program\GL_Program.h" />
     <ClInclude Include="RenderResources\Program\Program.h" />
     <ClInclude Include="RenderResources\ResourceManager.h" />
+    <ClInclude Include="RenderResources\ShaderModule\ExplosionModule.h" />
+    <ClInclude Include="RenderResources\ShaderModule\ReflectionCubeModule.h" />
     <ClInclude Include="RenderResources\ShaderModule\ShaderModule.h" />
     <ClInclude Include="RenderResources\ShaderParameter\ShaderParameters.h" />
     <ClInclude Include="RenderResources\ShaderParameter\ShaderParamList.h" />
@@ -91,6 +107,8 @@
     <ClInclude Include="RenderResources\Shader\Shader.h" />
     <ClInclude Include="RenderResources\Texture\GL_Texture.h" />
     <ClInclude Include="RenderResources\Texture\Texture.h" />
+    <ClInclude Include="Utilities\ProceduralContent\WorldGeneration.h" />
+    <ClInclude Include="Utilities\Random\PerlinNoise.h" />
     <ClInclude Include="Utilities\Time.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

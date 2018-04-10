@@ -28,6 +28,22 @@ GL_Shader::GL_Shader(std::string source, SHADER_TYPE type)
 	if (isCompiled == GL_FALSE)
 	{
 		std::cout << "GL Shader compilation failed." << std::endl;
+
+		int logLength;
+		int charsWritten;
+		glGetShaderiv(m_id, GL_INFO_LOG_LENGTH, &logLength);
+
+		if (logLength > 0)
+		{
+			char *infoLog = (char *)malloc(logLength);
+			glGetShaderInfoLog(m_id, logLength, &charsWritten, infoLog);
+
+			std::string log = infoLog;
+
+			free(infoLog);
+			std::cout << log << std::endl;
+		}
+		std::cout << glewGetErrorString(glGetError()) << std::endl;
 		glDeleteShader(m_id);
 		return;
 	}

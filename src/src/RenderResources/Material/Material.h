@@ -8,7 +8,6 @@
 // The material class is simplistically, a specialised parameter collection. The material is associated with a specific shader program
 // which, as the active rendering program, will trigger the shader parameter collection to be sent down the rendering pipeline.
 
-#include "../IRender.h"
 #include "../ShaderParameter/ShaderParamList.h"
 
 class Renderer;
@@ -18,15 +17,16 @@ class Material : public ShaderParamList
 {
 	friend class Renderer;
 private:
-	std::shared_ptr<Renderer>		m_attachedTo	= nullptr;
+	Renderer*		m_attachedTo	= nullptr;
 
 public:
 	Material(std::shared_ptr<ShaderModule> module);
 
-	~Material() override {};
+	~Material(){};
 
-	void Render(std::shared_ptr<Program>& program) const override;
-
-
-
+	void Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails) override;
+	Renderer* AttachedTo()
+	{
+		return m_attachedTo;
+	}
 };

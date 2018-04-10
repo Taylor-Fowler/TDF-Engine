@@ -29,6 +29,11 @@ public:
 		data.push_back(v0);
 	}
 
+	std::vector<float> Data()
+	{
+		return data;
+	}
+
 	virtual void Render(std::shared_ptr<Program>& program, const std::string &paramName) const
 	{
 		program->SendParam(paramName, data[0]);

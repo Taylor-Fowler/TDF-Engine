@@ -57,6 +57,8 @@ public:
 	virtual std::shared_ptr<Texture> CreateStaticTexture(unsigned int width, unsigned int height) const = 0;
 	virtual Texture* CreateDynamicTexture(unsigned int width, unsigned int height) const = 0;
 
+	virtual std::shared_ptr<Texture> WhiteTexture() const = 0;
+
 	// Create a static material that shall be associated with a specified program ID. The program ID identifies the shader program that the materials
 	// attributes correspond to. E.G. A material may be created with an associated to program A, now only when program A is rendering will the material
 	// send its attributes down the rendering pipeline.
@@ -76,6 +78,7 @@ public:
 
 	virtual std::shared_ptr<Shader> CreateShader(const std::string& name, Shader::SHADER_TYPE type) const = 0;
 	virtual std::shared_ptr<Program> CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders, const std::string& name) const = 0;
+	virtual std::shared_ptr<Program> CreateFeedbackProgram(std::vector<std::shared_ptr<Shader>>& shaders, const char* varyings[], unsigned int varyingCount, const std::string& name) const = 0;
 	
 
 };

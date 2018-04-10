@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
+#include "..\..\Utilities\Time.h"
 
 // Forward declarations
 class GameObject;
 class EventSystem;
 class RenderResourceFactory;
-
+class RenderLoop;
 
 class Component
 {
@@ -13,9 +14,11 @@ class Component
 	friend int main(int argc, char *argv[]);
 private:
 	static std::vector<Component*>	_allComponents;
+protected:
 	static EventSystem *			_eventSystem;
 	static RenderResourceFactory *	_renderResourceFactory;
-protected:
+	static RenderLoop *				_renderLoop;
+
 	GameObject	*m_objectAttachedTo	= nullptr;
 	bool		m_enabled			= true;
 	

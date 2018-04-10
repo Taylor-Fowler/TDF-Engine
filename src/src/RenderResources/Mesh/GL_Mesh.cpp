@@ -8,16 +8,30 @@
 #include "GL_Mesh.h"
 #include "..\Program\Program.h"
 
-void GL_Mesh::Render(std::shared_ptr<Program>& program) const
+GL_Mesh::~GL_Mesh()
 {
-	glm::mat4 identity(1.0f);
-	renderNode(m_rootNode, identity, program);
+	for (std::shared_ptr<Mesh_Data> meshData : m_meshData)
+	{
+		glDeleteBuffers(1, &meshData->m_verticesID);
+		glDeleteBuffers(1, &meshData->m_normalsID);
+		glDeleteBuffers(1, &meshData->m_textureCoordinatesID);
+		glDeleteBuffers(1, &meshData->m_indicesID);
+		glDeleteVertexArrays(1, &meshData->m_vaoID);
+	}
 }
 
-void GL_Mesh::renderNode(std::shared_ptr<Mesh_Node> node, glm::mat4 & transformations, std::shared_ptr<Program>& program) const
+void GL_Mesh::Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails)
+{
+	glm::mat4 identity(renderDetails.transformMatrix);
+	renderNode(m_rootNode, identity, program, renderDetails.viewMatrix);
+}
+
+void GL_Mesh::renderNode(std::shared_ptr<Mesh_Node> node, glm::mat4 & transformations, std::shared_ptr<Program>& program, const glm::mat4& viewMatrix) const
 {
 	glm::mat4 transform = transformations * node->m_localTransform;
+	glm::mat4 modelViewMatrix = viewMatrix * transform;
 	program->SendParam((std::string)"modelMatrix", glm::value_ptr(transform));
+	program->SendParam((std::string)"modelViewMatrix", glm::value_ptr(modelViewMatrix));
 
 	for (std::shared_ptr<Mesh_Data> meshData : node->m_attachedMeshes)
 	{
@@ -27,7 +41,7 @@ void GL_Mesh::renderNode(std::shared_ptr<Mesh_Node> node, glm::mat4 & transforma
 	}
 
 	for(std::shared_ptr<Mesh_Node> nextNode : node->m_nodes)
-		renderNode(nextNode, transform, program);
+		renderNode(nextNode, transform, program, viewMatrix);
 }
 
 void GL_Mesh::initialise() const

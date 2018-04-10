@@ -17,6 +17,8 @@ public:
 	std::shared_ptr<Texture> CreateStaticTexture(unsigned int width, unsigned int height) const override;
 	Texture* CreateDynamicTexture(unsigned int width, unsigned int height) const override;
 
+	std::shared_ptr<Texture> WhiteTexture() const override;
+
 	std::shared_ptr<Material> CreateStaticMaterial(unsigned int programID) const override;
 	Material* CreateDynamicMaterial(unsigned int programID) const override;
 
@@ -25,5 +27,5 @@ public:
 
 	std::shared_ptr<Shader> CreateShader(const std::string& name, Shader::SHADER_TYPE type) const override;
 	std::shared_ptr<Program> CreateProgram(std::vector<std::shared_ptr<Shader>>& shaders, const std::string& name) const override;
-
+	std::shared_ptr<Program> CreateFeedbackProgram(std::vector<std::shared_ptr<Shader>>& shaders, const char* varyings[], unsigned int varyingCount, const std::string& name) const override;
 };

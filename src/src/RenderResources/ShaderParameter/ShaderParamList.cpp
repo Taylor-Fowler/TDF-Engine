@@ -5,12 +5,12 @@
 ShaderParamList::ShaderParamList(std::shared_ptr<ShaderModule> shaderModule)
 {
 	m_subscribedTo = shaderModule;
-	m_subscribedTo->Subscribe(std::shared_ptr<ShaderParamList>(this));
+	m_subscribedTo->Subscribe(this);
 }
 
 ShaderParamList::~ShaderParamList()
 {
-	m_subscribedTo->Unsubscribe(std::shared_ptr<ShaderParamList>(this));
+	m_subscribedTo->Unsubscribe(this);
 }
 
 bool ShaderParamList::AddParameter(const std::string & paramName, FloatData & data)
@@ -27,6 +27,7 @@ bool ShaderParamList::AddParameter(const std::string & paramName, FloatData & da
 		return false;
 	}
 	m_floatParams.insert(std::make_pair(paramName, std::make_unique<FloatData>(data)));
+	m_allParams.insert(std::make_pair(paramName, SHADER_PARAMETER_TYPE::SPT_FLOAT));
 	return true;
 }
 
@@ -45,8 +46,27 @@ bool ShaderParamList::AddParameter(const std::string & paramName, std::unique_pt
 		return false;
 	}
 	m_floatParams.insert(std::make_pair(paramName, std::move(data)));
+	m_allParams.insert(std::make_pair(paramName, SHADER_PARAMETER_TYPE::SPT_FLOAT));
 	return true;
 }
+
+bool ShaderParamList::AddParameter(const std::string &paramName, std::shared_ptr<Texture> data)
+{
+	auto parameterLocation = m_allParams.find(paramName);
+	if (parameterLocation != m_allParams.end())
+	{
+		if (parameterLocation->second == SHADER_PARAMETER_TYPE::SPT_TEXTURE)
+		{
+			m_textureParams[paramName].swap(data);
+			return true;
+		}
+		return false;
+	}
+	m_textureParams.insert(std::make_pair(paramName, data));
+	m_allParams.insert(std::make_pair(paramName, SHADER_PARAMETER_TYPE::SPT_TEXTURE));
+	return true;
+}
+
 
 bool ShaderParamList::RemoveParameter(std::string paramName)
 {
@@ -68,7 +88,7 @@ bool ShaderParamList::RemoveParameter(std::string paramName)
 	return false;
 }
 
-void ShaderParamList::Render(std::shared_ptr<Program>& program) const
+void ShaderParamList::Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails)
 {
 	for (auto const &fParamPair : m_floatParams)
 	{
@@ -78,4 +98,14 @@ void ShaderParamList::Render(std::shared_ptr<Program>& program) const
 	{
 		uiParamPair.second->Render(program, uiParamPair.first);
 	}
+}
+
+std::shared_ptr<Texture> ShaderParamList::GetTexture(const std::string &paramName) const
+{
+	auto parameterLocation = m_textureParams.find(paramName);
+	if (parameterLocation != m_textureParams.end())
+	{
+		return parameterLocation->second;
+	}
+	return std::shared_ptr<Texture>();
 }

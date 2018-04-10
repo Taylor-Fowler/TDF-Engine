@@ -18,11 +18,13 @@ std::shared_ptr<Texture> GL_ResourceFactory::LoadStaticTexture(const std::string
 	std::shared_ptr<Texture> texture = m_resourceManager->FindTexture(name);
 	if (texture != nullptr)
 		return texture;
+	unsigned int width, height;
+	void * data;
 
-	if (!m_imageLoader->Load(name, GL_RGBA))
+	if ((data = m_imageLoader->Load(name, GL_RGBA, width, height)) == 0)
 		return std::shared_ptr<Texture>();
 
-	texture = std::make_shared<GL_Texture>(m_imageLoader->LoadedImageWidth(), m_imageLoader->LoadedImageHeight(), m_imageLoader->LoadedImageBits());
+	texture = std::make_shared<GL_Texture>(width, height, data);
 	m_resourceManager->AddTexture(name, texture);
 
 	return texture;
@@ -43,7 +45,17 @@ Texture * GL_ResourceFactory::CreateDynamicTexture(unsigned int width, unsigned 
 	return nullptr;
 }
 
+std::shared_ptr<Texture> GL_ResourceFactory::WhiteTexture() const
+{
+	std::shared_ptr<Texture> texture = m_resourceManager->FindTexture("White");
+	if (texture != nullptr)
+		return texture;
 
+	texture = std::make_shared<GL_Texture>();
+	m_resourceManager->AddTexture("White", texture);
+
+	return texture;
+}
 
 
 
@@ -105,5 +117,28 @@ std::shared_ptr<Program> GL_ResourceFactory::CreateProgram(std::vector<std::shar
 		return program;
 	}
 	
+	return std::shared_ptr<Program>();
+}
+
+std::shared_ptr<Program> GL_ResourceFactory::CreateFeedbackProgram(std::vector<std::shared_ptr<Shader>>& shaders, const char * varyings[], unsigned int varyingCount, const std::string & name) const
+{
+	if(shaders.size() == 0)
+		return std::shared_ptr<Program>();
+
+	auto program = std::make_shared<GL_Program>();
+	for (auto &shader : shaders)
+	{
+		if (!program->AttachShader(shader))
+			return std::shared_ptr<Program>();
+	}
+	glTransformFeedbackVaryings(program->ID(), varyingCount, varyings, GL_SEPARATE_ATTRIBS);
+
+	if (program->Link())
+	{
+		auto validName = m_renderLoop->NextValidProgramName(name);
+		m_renderLoop->AddProgram(program, validName);
+		return program;
+	}
+
 	return std::shared_ptr<Program>();
 }

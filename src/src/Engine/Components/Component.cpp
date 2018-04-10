@@ -6,6 +6,7 @@
 std::vector<Component*> Component::_allComponents;
 EventSystem*			Component::_eventSystem				= nullptr;
 RenderResourceFactory*	Component::_renderResourceFactory	= nullptr;
+RenderLoop*				Component::_renderLoop				= nullptr;
 
 Component::Component()
 {

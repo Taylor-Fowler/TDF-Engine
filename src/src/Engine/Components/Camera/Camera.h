@@ -31,7 +31,7 @@ public:
 	static Camera* const main();
 	static std::vector<Camera*> AllCameras();
 
-	void Render(std::shared_ptr<Program>& program) const override;
+	void Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails) override;
 
 	void SetPosition(glm::vec3 newPosition);
 	void SetPositionX(float newX);
@@ -60,6 +60,14 @@ public:
 	glm::vec3 Right()
 	{
 		return DEFAULT_RIGHT * glm::mat3(m_viewMatrix);
+	}
+	glm::mat4 ViewMatrix()
+	{
+		return m_viewMatrix;
+	}
+	glm::vec3 Position()
+	{
+		return m_transform.Position();
 	}
 
 private:

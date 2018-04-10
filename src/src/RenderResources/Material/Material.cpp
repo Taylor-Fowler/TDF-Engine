@@ -5,8 +5,8 @@ Material::Material(std::shared_ptr<ShaderModule> module) : ShaderParamList(modul
 {
 }
 
-void Material::Render(std::shared_ptr<Program>& program) const
+void Material::Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails) 
 {
-	ShaderParamList::Render(program);
-	m_attachedTo->Render(program);
+	ShaderParamList::Render(program, renderDetails);
+	m_attachedTo->Render(program, renderDetails);
 }

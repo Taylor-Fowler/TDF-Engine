@@ -6,6 +6,14 @@ GameObject::GameObject()
 {		
 	m_transform = new Transform();		
 }
+GameObject::~GameObject()
+{
+	for (int i = 0; i < m_objectComponents.size(); i++)
+		delete m_objectComponents[i];
+	m_objectComponents.clear();
+	delete m_renderer;
+	delete m_transform;
+}
 //
 //GameObject::GameObject(Transform &transform)
 //{

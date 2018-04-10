@@ -49,7 +49,14 @@ bool GL_Program::Link()
 
 	if (isLinked == GL_FALSE)
 	{
-		std::cout << "Error Linking GL Program. Error ID: " << glGetError() << std::endl;
+		GLint maxLength = 0;
+		glGetProgramiv(m_id, GL_INFO_LOG_LENGTH, &maxLength);
+
+		// The maxLength includes the NULL character
+		std::vector<GLchar> infoLog(maxLength);
+		glGetProgramInfoLog(m_id, maxLength, &maxLength, &infoLog[0]);
+
+		std::cout << "Error Linking GL Program. " << &infoLog[0] << std::endl;
 		return false;
 	}
 
@@ -131,7 +138,13 @@ bool GL_Program::SendParam(const std::string & parameterName, const float matrix
 
 bool GL_Program::SendParam(const std::string & parameterName, int v0)
 {
-	return false;
+	int location = getUniformLocation(parameterName);
+
+	if (location == -1)
+		return false;
+
+	glUniform1i(location, v0);
+	return true;
 }
 
 bool GL_Program::SendParam(const std::string & parameterName, int v0, int v1)
@@ -179,6 +192,17 @@ bool GL_Program::SendParam(const std::string & parameterName, unsigned int * v0,
 	return false;
 }
 
+bool GL_Program::SendParam(const unsigned int paramLocation, float v0, float v1, float v2)
+{
+	glUniform3f(paramLocation, v0, v1, v2);
+	return true;
+}
+
+unsigned int GL_Program::GetLocation(const std::string & paramName)
+{
+	return (unsigned int)getUniformLocation(paramName);
+}
+
 int GL_Program::getUniformLocation(const std::string &name)
 {
 	std::map<std::string, int>::iterator it;
@@ -196,7 +220,7 @@ int GL_Program::getUniformLocation(const std::string &name)
 	// If the name does not correspond to an active uniform name then print an error
 	if (location == -1)
 	{
-		std::cout << "Error finding uniform in GL Program. Uniform: " << name << " either does not exist or is not active." << std::endl;
+		//std::cout << "Error finding uniform in GL Program. Uniform: " << name << " either does not exist or is not active." << std::endl;
 		return -1;
 	}
 

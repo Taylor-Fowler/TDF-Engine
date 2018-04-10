@@ -1,10 +1,11 @@
 #include "glm\gtc\type_ptr.hpp"
 #include "glm\gtx\rotate_vector.hpp"
+#include "glm\gtx\transform.hpp"
 
 #include "Transform.h"
 #include "..\..\..\RenderResources\Program\Program.h"
 
-void Transform::Render(std::shared_ptr<Program>& program) const
+void Transform::Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails)
 {
 	program->SendParam("goTransformMatrix", glm::value_ptr(m_transformMatrix));
 }
@@ -87,6 +88,7 @@ void Transform::RotateZ(float alpha)
 
 void Transform::SetScale(glm::vec3 newScale)
 {
+	m_scale = newScale;
 	rebuildTransformMatrix();
 }
 
@@ -127,4 +129,12 @@ void Transform::AdjustScaleZ(float adjustZ)
 
 void Transform::rebuildTransformMatrix()
 {
+	if (m_rotation == glm::vec3(0.0f))
+	{
+		m_transformMatrix = glm::translate(m_position) * glm::scale(m_scale);
+	}
+	else
+	{
+		m_transformMatrix = glm::translate(m_position) * glm::rotate(glm::length(m_rotation), glm::normalize(m_rotation)) * glm::scale(m_scale);
+	}
 }

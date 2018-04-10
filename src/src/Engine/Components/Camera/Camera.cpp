@@ -40,7 +40,7 @@ std::vector<Camera*> Camera::AllCameras()
 	return _allCameras;
 }
 
-void Camera::Render(std::shared_ptr<Program>& program) const
+void Camera::Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails)
 {
 	program->SendParam("viewMatrix", glm::value_ptr(m_viewMatrix));
 }

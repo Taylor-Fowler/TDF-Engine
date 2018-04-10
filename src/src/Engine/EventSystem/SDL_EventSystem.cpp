@@ -74,7 +74,12 @@ const std::map<int, int> SDL_EventSystem::KEY_CODE_MAP =
 	{ SDLK_w, ES_KEYC_W },
 	{ SDLK_x, ES_KEYC_X },
 	{ SDLK_y, ES_KEYC_Y },
-	{ SDLK_z, ES_KEYC_Z }
+	{ SDLK_z, ES_KEYC_Z },
+
+	{ SDLK_LALT, ES_KEYC_LALT },
+	{ SDLK_PRINTSCREEN, ES_KEYC_PRTSCR },
+	{ SDLK_SPACE, ES_KEYC_SPACE }
+
 };
 
 const std::map<Uint8, int> SDL_EventSystem::MOUSE_BUTTON_MAP =

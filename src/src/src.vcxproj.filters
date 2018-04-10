@@ -82,6 +82,24 @@
     <Filter Include="src\Engine\Components\Renderer">
       <UniqueIdentifier>{853d7494-462e-4e02-83a4-634127597939}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Components\Lighting">
+      <UniqueIdentifier>{96e5f315-4d7c-425e-a275-6d676ac4ebe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\CustomComponents\ShaderSubscribers">
+      <UniqueIdentifier>{61848da2-1d53-4fc2-a09c-4034a1ee8969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utilities\Random">
+      <UniqueIdentifier>{30ce285c-c8bd-4b8d-8d8b-9b9e7d47137d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utilities\ProceduralContent">
+      <UniqueIdentifier>{55f9b4b0-d5f9-4e69-afd8-b4a914fdbd61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\RenderResources\Mesh\Builder">
+      <UniqueIdentifier>{828e29b3-6f3b-4631-96aa-302c21c828ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Components\Geometry">
+      <UniqueIdentifier>{b5d914c5-5729-4e18-9c58-aed63855acf8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,6 +188,33 @@
     </ClCompile>
     <ClCompile Include="RenderResources\Material\Material.cpp">
       <Filter>src\RenderResources\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\ShaderModule\ReflectionCubeModule.cpp">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\ShaderModule\ExplosionModule.cpp">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomComponents\ShaderSubscribers\Explosion.cpp">
+      <Filter>src\CustomComponents\ShaderSubscribers</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomComponents\ShaderSubscribers\SphericalDrip.cpp">
+      <Filter>src\CustomComponents\ShaderSubscribers</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomComponents\ShaderSubscribers\FloatyThing.cpp">
+      <Filter>src\CustomComponents\ShaderSubscribers</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Random\PerlinNoise.cpp">
+      <Filter>src\Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\ProceduralContent\WorldGeneration.cpp">
+      <Filter>src\Utilities\ProceduralContent</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Mesh\Builder\MeshBuilder.cpp">
+      <Filter>src\RenderResources\Mesh\Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Geometry\Terrain.cpp">
+      <Filter>src\Engine\Components\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +343,33 @@
     </ClInclude>
     <ClInclude Include="Engine\Components\Renderer\Renderer.h">
       <Filter>src\Engine\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\ShaderModule\ReflectionCubeModule.h">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\ShaderModule\ExplosionModule.h">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomComponents\ShaderSubscribers\Explosion.h">
+      <Filter>src\CustomComponents\ShaderSubscribers</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomComponents\ShaderSubscribers\SphericalDrip.h">
+      <Filter>src\CustomComponents\ShaderSubscribers</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomComponents\ShaderSubscribers\FloatyThing.h">
+      <Filter>src\CustomComponents\ShaderSubscribers</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Random\PerlinNoise.h">
+      <Filter>src\Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\ProceduralContent\WorldGeneration.h">
+      <Filter>src\Utilities\ProceduralContent</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Mesh\Builder\MeshBuilder.h">
+      <Filter>src\RenderResources\Mesh\Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Geometry\Terrain.h">
+      <Filter>src\Engine\Components\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

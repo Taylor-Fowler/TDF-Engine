@@ -1,15 +1,18 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include "glm\glm.hpp"
 
 class ShaderParamList;
 class Camera;
 class Program;
+class IRender;
 
 class ShaderModule
 {
 private:
-	std::vector<std::shared_ptr<ShaderParamList>> m_moduleSubscribers;
+	std::vector<ShaderParamList*> m_paramSubscribers;
+	std::vector<IRender*> m_renderSubscribers;
 protected:
 	std::shared_ptr<Program> m_mainProgram;
 
@@ -17,11 +20,21 @@ public:
 	ShaderModule(std::shared_ptr<Program> program);
 	virtual ~ShaderModule() {};
 
-	virtual void Render(Camera *const camera);
-	void Subscribe(std::shared_ptr<ShaderParamList> params)
+	virtual void PreRender(Camera *const camera);
+	virtual void Render(const glm::mat4& viewMatrix);
+	virtual void Subscribe(ShaderParamList* params)
 	{
-		m_moduleSubscribers.push_back(params);
+		if(params != nullptr)
+			m_paramSubscribers.push_back(params);
 	};
-	void Unsubscribe(std::shared_ptr<ShaderParamList> params);
+	virtual void Subscribe(IRender* renderable)
+	{
+		if (renderable != nullptr)
+			m_renderSubscribers.push_back(renderable);
+	};
 
+	virtual void Unsubscribe(ShaderParamList* params);
+	virtual void Unsubscribe(IRender* renderable);
+private:
+	virtual void init();
 };

@@ -1,10 +1,14 @@
 #pragma once
 #include <memory>
+#include "glm\glm.hpp"
 #include "..\Component.h"
 #include "..\..\..\RenderResources\IRender.h"
 #include "..\..\..\RenderResources\Material\Material.h"
 
+
 class Mesh;
+
+
 
 // A renderer controls how and what data is sent to the rendering pipeline for a given object.
 // The renderer consists of a model and a material, these member's properties are sent to the
@@ -18,10 +22,11 @@ protected:
 	std::vector<std::shared_ptr<Material>> m_materials;
 
 public:
+	~Renderer();
 	void AddMaterial(std::shared_ptr<Material> material);
 	void RemoveMaterial(std::shared_ptr<Material> material);
 
-	void Render(std::shared_ptr<Program>& program) const override;
+	void Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails) override;
 
 
 //

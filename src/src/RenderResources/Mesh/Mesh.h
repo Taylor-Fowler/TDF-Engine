@@ -7,6 +7,7 @@
 #include "..\IRender.h"
 
 class Loader3D;
+class MeshBuilder;
 
 struct Mesh_Data
 {
@@ -38,6 +39,7 @@ struct Mesh_Node
 class Mesh : public IRender
 {
 	friend class Loader3D;
+	friend class MeshBuilder;
 protected:
 	
 	std::vector<std::shared_ptr<Mesh_Data>>	m_meshData;
@@ -49,7 +51,16 @@ public:
 	virtual ~Mesh() = 0 {};
 
 	virtual std::shared_ptr<Mesh> DynamicInstance() const = 0;
-	virtual void Render(std::shared_ptr<Program>& program) const = 0;
+	void Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails) override = 0;
+
+	std::vector<std::shared_ptr<Mesh_Data>> GetMeshData()
+	{
+		return m_meshData;
+	}
+	std::shared_ptr<Mesh_Node> GetRootNode()
+	{
+		return m_rootNode;
+	}
 
 protected:
 	virtual void initialise() const = 0;

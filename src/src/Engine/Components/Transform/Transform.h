@@ -19,7 +19,7 @@ protected:
 	glm::mat4 m_transformMatrix;
 
 public:
-	void Render(std::shared_ptr<Program>& program) const override;
+	void Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails) override;
 
 	void SetPosition(glm::vec3 newPosition);
 	void SetPositionX(float newX);
@@ -57,6 +57,10 @@ public:
 	glm::vec3 Scale()
 	{
 		return m_scale;
+	}
+	glm::mat4 Matrix()
+	{
+		return m_transformMatrix;
 	}
 
 private:

@@ -23,6 +23,7 @@ public:
 	// Create blank GameObject with default transform.
 	// Example usage: placeholder
 	GameObject();
+	~GameObject();
 	//// Create GameObject with a copied transform
 	//// Example usage: Create a GameObject in the same position with the same rotation and scale as another object
 	//GameObject(Transform &transform);

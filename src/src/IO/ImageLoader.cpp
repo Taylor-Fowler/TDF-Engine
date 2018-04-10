@@ -8,42 +8,29 @@ ImageLoader::ImageLoader()
 	ilInit();
 }
 
-bool ImageLoader::Load(const std::string filename, unsigned int format)
+void* ImageLoader::Load(const std::string filename, unsigned int format, unsigned int &width, unsigned int &height)
 {
-	if (m_imageID != 0)
-		ilDeleteImages(1, &m_imageID);
+	//http://wiki.ogre3d.org/OpenGL+Image+Loader+Using+DevIL+Image+Library
+	ILuint image;
 
-	ilGenImages(1, &m_imageID);
-	ilBindImage(m_imageID);
+	ilGenImages(1, &image);
+	ilBindImage(image);
 
-	ilEnable(IL_ORIGIN_SET);
-	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+	ILenum Error;
+	Error = ilGetError();
+	if (Error != IL_NO_ERROR)
+		image = 2;
+
+	//ilEnable(IL_ORIGIN_SET);
+	//ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
 	if (ilLoadImage(filename.c_str()))
 	{
 		ilConvertImage(format, IL_UNSIGNED_BYTE);
-		return true;
-	}
-	return false;
-}
-
-unsigned int ImageLoader::LoadedImageHeight()
-{
-	if (m_imageID != 0)
-		return ilGetInteger(IL_IMAGE_HEIGHT);
-	return 0;
-}
-
-unsigned int ImageLoader::LoadedImageWidth()
-{
-	if (m_imageID != 0)
-		return ilGetInteger(IL_IMAGE_WIDTH);
-	return 0;
-}
-
-void * ImageLoader::LoadedImageBits()
-{
-	if (m_imageID != 0)
+		width = ilGetInteger(IL_IMAGE_WIDTH);
+		height = ilGetInteger(IL_IMAGE_HEIGHT);
 		return ilGetData();
+	}
 	return 0;
 }
+

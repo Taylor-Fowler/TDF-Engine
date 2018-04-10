@@ -54,7 +54,11 @@ public:
 	virtual bool SendParam(const std::string& parameterName, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3) = 0;
 	virtual bool SendParam(const std::string& parameterName, unsigned int *v0, unsigned int parameterSize, unsigned int arraySize) = 0;
 
+	unsigned int ID() { return m_id; }
 
+
+	virtual bool SendParam(const unsigned int paramLocation, float v0, float v1, float v2) = 0;
+	virtual unsigned int GetLocation(const std::string& paramName) = 0;
 
 };
 
