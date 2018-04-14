@@ -1,0 +1,66 @@
+#version 460
+
+
+
+layout(std430, binding=0) buffer posIn 
+{
+	vec4 Position[];
+};
+layout(std430, binding=4) buffer normOut
+{
+	vec4 Normal[];
+};
+
+layout (local_size_x = 512) in;
+void main()
+{
+	uvec3 verticesCount = gl_NumWorkGroups * gl_WorkGroupSize;
+	uint idx = gl_GlobalInvocationID.y * verticesCount.x + gl_GlobalInvocationID.x;
+
+	vec3 p = vec3(Position[idx]);
+	vec3 n = vec3(0);
+	vec3 a, b, c;
+
+	if (gl_GlobalInvocationID.y < verticesCount.y - 1)
+	{
+		c = Position[idx + verticesCount.x].xyz - p;
+		if (gl_GlobalInvocationID.x < verticesCount.x - 1)
+		{
+			a = Position[idx + 1].xyz - p;
+			b = Position[idx + verticesCount.x + 1].xyz - p;
+			n += cross(a,b);
+			n += cross(b,c);
+		}
+		if (gl_GlobalInvocationID.x > 0)
+		{
+			a = c;
+			b = Position[idx + verticesCount.x - 1].xyz - p;
+			c = Position[idx - 1].xyz - p;
+			n += cross(a,b);
+			n += cross(b,c);
+		}
+	}
+
+	if (gl_GlobalInvocationID.y > 0)
+	{
+		c = Position[idx - verticesCount.x].xyz - p;
+		if (gl_GlobalInvocationID.x > 0)
+		{
+			a = Position[idx - 1].xyz - p;
+			b = Position[idx - verticesCount.x - 1].xyz - p;
+			n += cross(a,b);
+			n += cross(b,c);
+		}
+		if (gl_GlobalInvocationID.x < verticesCount.x - 1)
+		{
+			a = c; 
+			b = Position[idx - verticesCount.x + 1].xyz - p;
+			c = Position[idx + 1].xyz - p;
+			n += cross(a,b);
+			n += cross(b,c);
+		}
+	}
+
+	Normal[idx] = vec4(normalize(n), 0.0);
+}
+

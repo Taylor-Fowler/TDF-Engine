@@ -21,7 +21,7 @@ public:
 	void HideWindow() override {};
 	void ExposeWindow() override {};
 	void MoveWindow(int x, int y) override {};
-	void ResizeWindow(int x, int y) override {};
+	void ResizeWindow(int x, int y);
 	void ChangeWindowSize(int x, int y) override {};
 	void CloseWindow() override;
 

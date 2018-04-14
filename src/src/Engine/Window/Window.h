@@ -9,8 +9,8 @@ class Window : public IWindowEvents
 {
 protected:
 	int				m_id		= -1;
-	unsigned int	m_width		= 800;
-	unsigned int	m_height	= 600;
+	unsigned int	m_width		= 1200;
+	unsigned int	m_height	= 900;
 	unsigned int	m_x			= 400;
 	unsigned int	m_y			= 300;
 	std::string		m_title		= "A Window";

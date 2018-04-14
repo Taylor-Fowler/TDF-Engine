@@ -134,22 +134,6 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 		m_objects.push_back(std::shared_ptr<GameObject>(cube));
 	}
 
-	// Static Cube
-	{
-		GameObject * cube = new GameObject();
-		Renderer& cubeRend = cube->AddComponent<Renderer>();
-		cubeRend.m_mesh = renderResourceFactory.CreateStaticMesh("Assets/Models/Cube.obj");
-
-		auto mat = std::make_shared<Material>(renderLoop.DefaultShaderModule());
-		mat->AddParameter("ambientMaterial", std::move(std::make_unique<FloatData3>(0.1f, 0.5f, 0.5f)));
-		mat->AddParameter("texture0", renderResourceFactory.WhiteTexture());
-		cubeRend.AddMaterial(mat);
-
-		cube->GetTransform()->SetPosition(glm::vec3(5.0f, 5.0f, -5.0f));
-
-		m_objects.push_back(std::shared_ptr<GameObject>(cube));
-	}
-
 	{
 		GameObject *particleSystem = new GameObject();
 		particleSystem->AddComponent<SphericalDrip>();

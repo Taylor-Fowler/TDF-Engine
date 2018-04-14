@@ -25,7 +25,8 @@ struct BIOME_SETTING
 class WorldGeneration
 {
 private:
-	double seed, secondarySeed;
+	double m_seed;
+	double m_secondarySeed;
 	double amplifierX, amplifierZ;
 	int gridWidth, gridHeight;
 	int chunkWidth, chunkHeight;
@@ -79,6 +80,7 @@ public:
 
 
 	std::vector<float> GenerateVertices(float minHeight, float maxHeight, float positionX = 0.0f, float positionZ = 0.0f);
+
 
 	std::vector<float> GenerateNormals(std::vector<float> vertices);
 

@@ -1,4 +1,5 @@
 #include "SDL_MyWindow.h"
+#include "GL\glew.h"
 
 SDL_MyWindow::SDL_MyWindow(EventSystem& eventSystem)
 	: Window()
@@ -25,6 +26,11 @@ SDL_MyWindow::~SDL_MyWindow()
 void SDL_MyWindow::SwapBuffer()
 {
 	SDL_GL_SwapWindow(m_window);
+}
+
+void SDL_MyWindow::ResizeWindow(int x, int y)
+{
+	glViewport(0, 0, x, y);
 }
 
 void SDL_MyWindow::CloseWindow()

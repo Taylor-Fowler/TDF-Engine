@@ -46,7 +46,7 @@ void main(void)
   pos1 += vel1;
 
   //normalize(follow - pos) * 2.0 +
-  Colour = vec4(1, 0, 0, 1);
+  Colour = vec4(abs(normalize(vel)), 1);
 
   gl_Position = projectionMatrix * viewMatrix * vec4(pos, 1);
 }
