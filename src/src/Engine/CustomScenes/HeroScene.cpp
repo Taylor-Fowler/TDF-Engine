@@ -30,12 +30,12 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 		
 		cam.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		cam.SetSkybox(renderResourceFactory.LoadStaticCubeTexture(
-			"Assets/Textures/Skyboxes/keithlantz.net/xpos.png",
-			"Assets/Textures/Skyboxes/keithlantz.net/xneg.png",
-			"Assets/Textures/Skyboxes/keithlantz.net/ypos.png",
-			"Assets/Textures/Skyboxes/keithlantz.net/yneg.png",
-			"Assets/Textures/Skyboxes/keithlantz.net/zpos.png",
-			"Assets/Textures/Skyboxes/keithlantz.net/zneg.png"
+			"Assets/Textures/Skyboxes/skyboxsun5deg/skyrender0001.bmp",
+			"Assets/Textures/Skyboxes/skyboxsun5deg/skyrender0004.bmp",
+			"Assets/Textures/Skyboxes/skyboxsun5deg/skyrender0003.bmp",
+			"Assets/Textures/Skyboxes/skyboxsun5deg/skyrender0003.bmp",
+			"Assets/Textures/Skyboxes/skyboxsun5deg/skyrender0005.bmp",
+			"Assets/Textures/Skyboxes/skyboxsun5deg/skyrender0002.bmp"
 			));
 
 		bcc = &cameraObject->AddComponent<BasicCameraController>();

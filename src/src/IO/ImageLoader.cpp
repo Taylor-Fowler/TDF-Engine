@@ -16,13 +16,8 @@ void* ImageLoader::Load(const std::string filename, unsigned int format, unsigne
 	ilGenImages(1, &image);
 	ilBindImage(image);
 
-	ILenum Error;
-	Error = ilGetError();
-	if (Error != IL_NO_ERROR)
-		image = 2;
-
-	//ilEnable(IL_ORIGIN_SET);
-	//ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+	ilEnable(IL_ORIGIN_SET);
+	ilOriginFunc(IL_ORIGIN_UPPER_LEFT);
 
 	if (ilLoadImage(filename.c_str()))
 	{
