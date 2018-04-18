@@ -33,6 +33,8 @@ void GL_Mesh::renderNode(std::shared_ptr<Mesh_Node> node, glm::mat4 & transforma
 	program->SendParam((std::string)"modelMatrix", glm::value_ptr(transform));
 	program->SendParam((std::string)"modelViewMatrix", glm::value_ptr(modelViewMatrix));
 
+	
+
 	for (std::shared_ptr<Mesh_Data> meshData : node->m_attachedMeshes)
 	{
 		glBindVertexArray(meshData->m_vaoID);

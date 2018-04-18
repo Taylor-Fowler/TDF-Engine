@@ -31,6 +31,8 @@ void SDL_MyWindow::SwapBuffer()
 void SDL_MyWindow::ResizeWindow(int x, int y)
 {
 	glViewport(0, 0, x, y);
+	m_width = x;
+	m_height = y;
 }
 
 void SDL_MyWindow::CloseWindow()

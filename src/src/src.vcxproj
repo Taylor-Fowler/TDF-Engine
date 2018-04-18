@@ -34,13 +34,13 @@
     <ClCompile Include="Engine\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\RenderLoop.cpp" />
     <ClCompile Include="Engine\Window\SDL_MyWindow.cpp" />
+    <ClCompile Include="Engine\Window\Window.cpp" />
     <ClCompile Include="IO\FileReadWrite.cpp" />
     <ClCompile Include="IO\ImageLoader.cpp" />
     <ClCompile Include="IO\Loader3D.cpp" />
     <ClCompile Include="IO\SDL_ReadWrite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderResources\Factory\GL_ResourceFactory.cpp" />
-    <ClCompile Include="RenderResources\Factory\RenderResourceFactory.cpp" />
     <ClCompile Include="RenderResources\Framebuffer\GL_Framebuffer.cpp" />
     <ClCompile Include="RenderResources\Material\Material.cpp" />
     <ClCompile Include="RenderResources\Mesh\Builder\MeshBuilder.cpp" />
@@ -50,12 +50,16 @@
     <ClCompile Include="RenderResources\ShaderModule\ExplosionModule.cpp" />
     <ClCompile Include="RenderResources\ShaderModule\ReflectionCubeModule.cpp" />
     <ClCompile Include="RenderResources\ShaderModule\ShaderModule.cpp" />
+    <ClCompile Include="RenderResources\ShaderModule\SkyboxModule.cpp" />
     <ClCompile Include="RenderResources\ShaderParameter\ShaderParamList.cpp" />
     <ClCompile Include="RenderResources\Shader\GL_Shader.cpp" />
+    <ClCompile Include="RenderResources\Texture\CubeTexture.cpp" />
+    <ClCompile Include="RenderResources\Texture\GL_CubeTexture.cpp" />
     <ClCompile Include="RenderResources\Texture\GL_Texture.cpp" />
     <ClCompile Include="RenderResources\Texture\Texture.cpp" />
     <ClCompile Include="Utilities\ProceduralContent\WorldGeneration.cpp" />
     <ClCompile Include="Utilities\Random\PerlinNoise.cpp" />
+    <ClCompile Include="Utilities\Random\SimplexNoise.cpp" />
     <ClCompile Include="Utilities\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,14 +105,19 @@
     <ClInclude Include="RenderResources\ShaderModule\ExplosionModule.h" />
     <ClInclude Include="RenderResources\ShaderModule\ReflectionCubeModule.h" />
     <ClInclude Include="RenderResources\ShaderModule\ShaderModule.h" />
+    <ClInclude Include="RenderResources\ShaderModule\SkyboxModule.h" />
     <ClInclude Include="RenderResources\ShaderParameter\ShaderParameters.h" />
     <ClInclude Include="RenderResources\ShaderParameter\ShaderParamList.h" />
     <ClInclude Include="RenderResources\Shader\GL_Shader.h" />
     <ClInclude Include="RenderResources\Shader\Shader.h" />
+    <ClInclude Include="RenderResources\Texture\CubeTexture.h" />
+    <ClInclude Include="RenderResources\Texture\GL_CubeTexture.h" />
     <ClInclude Include="RenderResources\Texture\GL_Texture.h" />
     <ClInclude Include="RenderResources\Texture\Texture.h" />
+    <ClInclude Include="Utilities\Math\MathHelpers.h" />
     <ClInclude Include="Utilities\ProceduralContent\WorldGeneration.h" />
     <ClInclude Include="Utilities\Random\PerlinNoise.h" />
+    <ClInclude Include="Utilities\Random\SimplexNoise.h" />
     <ClInclude Include="Utilities\Time.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

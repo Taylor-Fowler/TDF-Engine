@@ -60,6 +60,7 @@ bool GL_Program::Link()
 		return false;
 	}
 
+	m_compiled = true;
 	return true;
 }
 

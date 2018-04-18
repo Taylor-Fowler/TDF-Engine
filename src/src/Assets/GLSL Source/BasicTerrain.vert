@@ -3,8 +3,8 @@
 ////////////////////////////////////
 ////	VERTEX ATTRIBS
 ////////////////////////////////////
-layout (location = 0) in vec3 vertex;
-layout (location = 1) in vec3 normal;
+layout (location = 0) in vec4 vertex;
+layout (location = 1) in vec4 normal;
 layout (location = 2) in vec2 textureCoordinate;
 
 ////////////////////////////////////
@@ -23,12 +23,14 @@ uniform vec3 ambientMaterial;
 out vec4 Colour;
 out float y;
 out vec2 uv;
+out vec3 vertexNormal;
 
 
 void main(void)
 {
   uv = textureCoordinate;
   y = vertex.y;
+  vertexNormal = mat3(viewMatrix) * normal.xyz;
   Colour = vec4(ambientMaterial, 1);
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(vertex, 1);
+  gl_Position = projectionMatrix * viewMatrix * vertex;
 }

@@ -14,6 +14,8 @@ public:
 	std::shared_ptr<Texture> LoadStaticTexture(const std::string& name) const override;
 	Texture* LoadDynamicTexture(const std::string& name) const override;
 
+	std::shared_ptr<CubeTexture> LoadStaticCubeTexture(const std::string& x_pos, const std::string& x_neg, const std::string& y_pos, const std::string& y_neg, const std::string& z_pos, const std::string& z_neg) const override;
+
 	std::shared_ptr<Texture> CreateStaticTexture(unsigned int width, unsigned int height) const override;
 	Texture* CreateDynamicTexture(unsigned int width, unsigned int height) const override;
 

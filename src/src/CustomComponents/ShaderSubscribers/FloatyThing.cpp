@@ -3,7 +3,6 @@
 #include "..\..\Engine\RenderLoop.h"
 #include "..\..\RenderResources\ShaderModule\ShaderModule.h"
 #include "..\..\Engine\Components\Camera\Camera.h"
-#include <iostream>
 
 
 FloatyThing::FloatyThing()
@@ -26,6 +25,7 @@ void FloatyThing::Render(std::shared_ptr<Program>& program, const RenderDetails 
 {
 	if (m_createdAt + m_spawnDelay > AppTime::GetTime())
 		return;
+
 	float startSpawn = m_createdAt + m_spawnDelay;
 	float elapsed = AppTime::GetTime() - startSpawn;
 	if (m_followUniformLoc == 0) m_followUniformLoc = program->GetLocation("follow");
@@ -80,10 +80,6 @@ void FloatyThing::Render(std::shared_ptr<Program>& program, const RenderDetails 
 	glBindVertexArray(m_vaos[m_curr]);
 	glDrawArrays(GL_POINTS, 0, PARTICLE_COUNT);
 	glBindVertexArray(0);
-
-	GLenum err;
-	if ((err = glGetError()) != GL_NO_ERROR)
-		std::cout << err << std::endl;
 
 	m_curr = 1 - m_curr;
 }

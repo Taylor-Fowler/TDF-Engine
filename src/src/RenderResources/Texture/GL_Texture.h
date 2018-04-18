@@ -11,6 +11,7 @@ public:
 	~GL_Texture();
 
 	void Bind() const override;
+	void Unbind() const override;
 
 protected:
 	void initialiseWhiteTexture() override;

@@ -1,45 +1,44 @@
 #include "ShaderModule.h"
+#include "..\..\Engine\Components\Camera\Camera.h"
+#include "..\ShaderParameter\ShaderParamList.h"
+#include "..\Factory\RenderResourceFactory.h"
 
 #include <algorithm>
 #include "GL\glew.h"
 #include "glm\gtc\type_ptr.hpp"
+#include <iostream>
 
-#include "..\..\Engine\Components\Camera\Camera.h"
-#include "..\ShaderParameter\ShaderParamList.h"
-#include "..\IRender.h"
+RenderResourceFactory* ShaderModule::_renderResourceFactory = nullptr;
 
 ShaderModule::ShaderModule(std::shared_ptr<Program> program)
 {
 	m_mainProgram = program;
-	init();
 }
 
-void ShaderModule::PreRender(Camera *const camera)
-{
-	
-}
-
-void ShaderModule::Render(const glm::mat4& viewMatrix)
+void ShaderModule::Render(RenderDetails renderDetails)
 {
 	m_mainProgram->Use();
-	m_mainProgram->SendParam("viewMatrix", glm::value_ptr(viewMatrix));
+	m_mainProgram->SendParam("texture0", 0);
+	m_mainProgram->SendParam("viewMatrix", glm::value_ptr(renderDetails.viewMatrix));
+	m_mainProgram->SendParam("projectionMatrix", glm::value_ptr(renderDetails.projectionMatrix));
 
+	
 
 	for (auto& sub : m_paramSubscribers)
 	{
 		glActiveTexture(GL_TEXTURE0);
+
 		auto texture = sub->GetTexture("texture0");
-		if (texture != nullptr)
-		{
-			texture->Bind();
-		}
-		sub->Render(m_mainProgram, { viewMatrix, glm::mat4(1) });
+		if (texture == nullptr)
+			texture = _renderResourceFactory->WhiteTexture();
+
+		texture->Bind();
+		sub->Render(m_mainProgram, renderDetails);
+		texture->Unbind();
 	}
 
 	for (auto sub : m_renderSubscribers)
-	{
-		sub->Render(m_mainProgram, { viewMatrix, glm::mat4(1) });
-	}
+		sub->Render(m_mainProgram, renderDetails);
 }
 
 void ShaderModule::Unsubscribe(ShaderParamList* params)
@@ -60,11 +59,4 @@ void ShaderModule::Unsubscribe(IRender* renderable)
 		if (location != m_renderSubscribers.end())
 			m_renderSubscribers.erase(location);
 	}
-}
-
-
-void ShaderModule::init()
-{
-	m_mainProgram->Use();
-	m_mainProgram->SendParam("texture0", 0);
 }

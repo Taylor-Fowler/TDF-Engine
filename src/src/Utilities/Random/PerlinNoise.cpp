@@ -24,6 +24,45 @@ PerlinNoise::PerlinNoise()
 	for (int i = 0; i < 256; i++) p[256 + i] = p[i] = permutation[i];
 }
 
+float PerlinNoise::cnoise(glm::vec2 P)
+{
+	glm::vec4 Pi = floor(glm::vec4(P.x, P.y, P.x, P.y)) + glm::vec4(0.0, 0.0, 1.0, 1.0);
+	glm::vec4 Pf = fract(glm::vec4(P.x, P.y, P.x, P.y)) - glm::vec4(0.0, 0.0, 1.0, 1.0);
+	Pi = mod289(Pi); // To avoid truncation effects in permutation
+	glm::vec4 ix = glm::vec4(Pi.x, Pi.z, Pi.x, Pi.z);
+	glm::vec4 iy = glm::vec4(Pi.y, Pi.y, Pi.w, Pi.w);
+	glm::vec4 fx = glm::vec4(Pf.x, Pf.z, Pf.x, Pf.z);
+	glm::vec4 fy = glm::vec4(Pf.y, Pf.y, Pf.w, Pf.w);
+
+	glm::vec4 i = permute(permute(ix) + iy);
+
+	glm::vec4 gx = fract(i * (1.0f / 41.0f)) * 2.0f - 1.0f;
+	glm::vec4 gy = abs(gx) - 0.5f;
+	glm::vec4 tx = floor(gx + 0.5f);
+	gx = gx - tx;
+
+	glm::vec2 g00 = glm::vec2(gx.x, gy.x);
+	glm::vec2 g10 = glm::vec2(gx.y, gy.y);
+	glm::vec2 g01 = glm::vec2(gx.z, gy.z);
+	glm::vec2 g11 = glm::vec2(gx.w, gy.w);
+
+	glm::vec4 norm = taylorInvSqrt(glm::vec4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
+	g00 *= norm.x;
+	g01 *= norm.y;
+	g10 *= norm.z;
+	g11 *= norm.w;
+
+	float n00 = dot(g00, glm::vec2(fx.x, fy.x));
+	float n10 = dot(g10, glm::vec2(fx.y, fy.y));
+	float n01 = dot(g01, glm::vec2(fx.z, fy.z));
+	float n11 = dot(g11, glm::vec2(fx.w, fy.w));
+
+	glm::vec2 fade_xy = fade(glm::vec2(Pf.x, Pf.y));
+	glm::vec2 n_x = mix(glm::vec2(n00, n01), glm::vec2(n10, n11), fade_xy.x);
+	float n_xy = lerp(fade_xy.y, n_x.x, n_x.y);
+	return 2.3 * n_xy;
+}
+
 double PerlinNoise::GetNoise2D(double x, double y)
 {
 	int X = (int)floor(x) & 255;

@@ -12,7 +12,7 @@ class ShaderModule;
 
 class RenderLoop
 {
-	friend int main(int argc, char *argv[]);
+	friend void CreateDefaultShaders();
 private:
 	std::shared_ptr<Program> m_defaultProgram;
 	std::shared_ptr<ShaderModule> m_defaultModule;

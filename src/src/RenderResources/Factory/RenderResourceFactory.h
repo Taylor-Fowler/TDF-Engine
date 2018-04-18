@@ -21,6 +21,7 @@ class Mesh;
 class Program;
 class Shader;
 class Texture;
+class CubeTexture;
 
 
 
@@ -53,6 +54,8 @@ public:
 	// Creates a dynamic texture from a given file path, a dynamic texture can change frequently. The dynamic texture is loaded into memory
 	// but as a separate instance to other textures with an identical filepath.
 	virtual Texture* LoadDynamicTexture(const std::string& name) const = 0;
+
+	virtual std::shared_ptr<CubeTexture> LoadStaticCubeTexture(const std::string& x_pos, const std::string& x_neg, const std::string& y_pos, const std::string& y_neg, const std::string& z_pos, const std::string& z_neg) const = 0;
 
 	virtual std::shared_ptr<Texture> CreateStaticTexture(unsigned int width, unsigned int height) const = 0;
 	virtual Texture* CreateDynamicTexture(unsigned int width, unsigned int height) const = 0;

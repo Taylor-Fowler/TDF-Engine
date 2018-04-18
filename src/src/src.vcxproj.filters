@@ -100,15 +100,15 @@
     <Filter Include="src\Engine\Components\Geometry">
       <UniqueIdentifier>{b5d914c5-5729-4e18-9c58-aed63855acf8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Utilities\Math">
+      <UniqueIdentifier>{857fb5e4-608e-4a46-bcde-53e5f9424b13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="RenderResources\Factory\GL_ResourceFactory.cpp">
-      <Filter>src\RenderResources\Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderResources\Factory\RenderResourceFactory.cpp">
       <Filter>src\RenderResources\Factory</Filter>
     </ClCompile>
     <ClCompile Include="Engine\RenderLoop.cpp">
@@ -215,6 +215,21 @@
     </ClCompile>
     <ClCompile Include="Engine\Components\Geometry\Terrain.cpp">
       <Filter>src\Engine\Components\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Random\SimplexNoise.cpp">
+      <Filter>src\Utilities\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Window\Window.cpp">
+      <Filter>src\Engine\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\ShaderModule\SkyboxModule.cpp">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Texture\CubeTexture.cpp">
+      <Filter>src\RenderResources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\Texture\GL_CubeTexture.cpp">
+      <Filter>src\RenderResources\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +385,21 @@
     </ClInclude>
     <ClInclude Include="Engine\Components\Geometry\Terrain.h">
       <Filter>src\Engine\Components\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Random\SimplexNoise.h">
+      <Filter>src\Utilities\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Math\MathHelpers.h">
+      <Filter>src\Utilities\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\ShaderModule\SkyboxModule.h">
+      <Filter>src\RenderResources\ShaderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Texture\CubeTexture.h">
+      <Filter>src\RenderResources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\Texture\GL_CubeTexture.h">
+      <Filter>src\RenderResources\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

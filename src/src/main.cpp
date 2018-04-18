@@ -13,6 +13,7 @@
 #include "RenderResources\ResourceManager.h"
 #include "RenderResources\Factory\GL_ResourceFactory.h"
 #include "RenderResources\ShaderModule\ShaderModule.h"
+#include "RenderResources\ShaderModule\SkyboxModule.h"
 #include "RenderResources\ShaderModule\ReflectionCubeModule.h"
 #include "RenderResources\Program\Program.h"
 #include "RenderResources\Shader\Shader.h"
@@ -36,6 +37,7 @@ ImageLoader iLoader;
 SDL_MyWindow *mainWindow;
 GL_ResourceFactory *resourceFactory;
 
+void CreateDefaultShaders();
 
 bool Init()
 {
@@ -61,6 +63,7 @@ bool Init()
 	resourceFactory = new GL_ResourceFactory(&renderLoop, &readWrite, &resourceManager, &loader3D, &iLoader);
 
 	AppTime::Initialise();
+	srand(time(NULL));
 
 	return true;
 }
@@ -76,39 +79,10 @@ int main(int argc, char *argv[])
 	Component::_eventSystem = &eventSystem;
 	Component::_renderResourceFactory = resourceFactory;
 	Component::_renderLoop = &renderLoop;
+	ShaderModule::_renderResourceFactory = resourceFactory;
 
-	// Create the default rendering program and add it to the render loop
-	{
-		std::vector<std::shared_ptr<Shader>> shaders;
-		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Default.vert", Shader::SHADER_TYPE::VERTEX));
-		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Default.frag", Shader::SHADER_TYPE::FRAGMENT));
-
-		auto program = resourceFactory->CreateProgram(shaders, "Default");
-		program->Use();
-		glm::mat4 projectionMatrix = glm::perspective(1.0472f, 800.0f * 1.0f / 600.0f, 0.02f, 1000.0f);
-		program->SendParam("projectionMatrix", glm::value_ptr(projectionMatrix));
-		program->SendParam("ambientLight", 1.0f, 1.0f, 1.0f);
-
-		renderLoop.m_defaultProgram = program;
-		renderLoop.m_defaultModule = std::make_shared<ShaderModule>(program);
-		renderLoop.AddModule(renderLoop.m_defaultModule, 10, "Default");
-
-		//renderLoop.AddModule(std::make_shared<ReflectionCubeModule>(program), 1, "ReflectionCube");
-	}
-	{
-		std::vector<std::shared_ptr<Shader>> shaders;
-		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/BasicTerrain.vert", Shader::SHADER_TYPE::VERTEX));
-		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/BasicTerrain.frag", Shader::SHADER_TYPE::FRAGMENT));
-
-		auto program = resourceFactory->CreateProgram(shaders, "Terrain");
-		program->Use();
-		glm::mat4 projectionMatrix = glm::perspective(1.0472f, 800.0f * 1.0f / 600.0f, 0.02f, 1000.0f);
-		program->SendParam("projectionMatrix", glm::value_ptr(projectionMatrix));
-		program->SendParam("ambientMaterial", 1.0f, 1.0f, 1.0f);
-
-		renderLoop.AddModule(std::make_shared<ShaderModule>(program), 1, "Terrain");
-	}
-
+	CreateDefaultShaders();
+	
 
 	HeroScene scene(*resourceFactory, renderLoop);
 
@@ -130,4 +104,60 @@ int main(int argc, char *argv[])
 	
 	SDL_Quit();
 	return 0;
+}
+
+
+void CreateDefaultShaders()
+{
+	// Create the default rendering program and add it to the render loop
+	{
+		std::vector<std::shared_ptr<Shader>> shaders;
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Default.vert", Shader::SHADER_TYPE::VERTEX));
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Default.frag", Shader::SHADER_TYPE::FRAGMENT));
+
+		auto program = resourceFactory->CreateProgram(shaders, "Default");
+		program->Use();
+		program->SendParam("ambientLight", 1.0f, 1.0f, 1.0f);
+
+		renderLoop.m_defaultProgram = program;
+		renderLoop.m_defaultModule = std::make_shared<ShaderModule>(program);
+		renderLoop.AddModule(renderLoop.m_defaultModule, 10, "Default");
+	}
+	// Terrain Shader
+	{
+		std::vector<std::shared_ptr<Shader>> shaders;
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/BasicTerrain.vert", Shader::SHADER_TYPE::VERTEX));
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/BasicTerrain.frag", Shader::SHADER_TYPE::FRAGMENT));
+
+		auto program = resourceFactory->CreateProgram(shaders, "Terrain");
+		program->Use();
+		program->SendParam("ambientMaterial", 0.5f, 0.5f, 0.5f);
+
+		renderLoop.AddModule(std::make_shared<ShaderModule>(program), 2, "Terrain");
+	}
+	// Terrain Generation Shader
+	{
+		std::vector<std::shared_ptr<Shader>> shaders;
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/TerrainGeneration.comp", Shader::SHADER_TYPE::COMPUTE));
+
+		auto program = resourceFactory->CreateProgram(shaders, "TerrainGeneration");
+	}
+	// Terrain Normal Generation Shader
+	{
+		std::vector<std::shared_ptr<Shader>> shaders;
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/TerrainNormalGeneration.comp", Shader::SHADER_TYPE::COMPUTE));
+
+		auto program = resourceFactory->CreateProgram(shaders, "TerrainNormalGeneration");
+	}
+	// Skybox Shader
+	{
+		std::vector<std::shared_ptr<Shader>> shaders;
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Skybox.vert", Shader::SHADER_TYPE::VERTEX));
+
+		shaders.push_back(resourceFactory->CreateShader("Assets/GLSL Source/Skybox.frag", Shader::SHADER_TYPE::FRAGMENT));
+
+		auto program = resourceFactory->CreateProgram(shaders, "Skybox");
+		renderLoop.AddModule(std::make_shared<SkyboxModule>(program), 1, "Skybox");
+	}
+
 }

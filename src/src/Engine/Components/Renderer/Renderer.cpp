@@ -23,5 +23,5 @@ void Renderer::RemoveMaterial(std::shared_ptr<Material> material)
 
 void Renderer::Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails)
 {
-	m_mesh->Render(program, { renderDetails.viewMatrix, renderDetails.transformMatrix * m_objectAttachedTo->GetTransform()->Matrix() });
+	m_mesh->Render(program, { renderDetails.renderingCamera, renderDetails.viewMatrix, renderDetails.transformMatrix * m_objectAttachedTo->GetTransform()->Matrix() });
 }

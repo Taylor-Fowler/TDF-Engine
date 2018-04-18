@@ -6,12 +6,12 @@ layout(std430, binding=0) buffer posIn
 {
 	vec4 Position[];
 };
-layout(std430, binding=4) buffer normOut
+layout(std430, binding=2) buffer normOut
 {
 	vec4 Normal[];
 };
 
-layout (local_size_x = 512) in;
+layout (local_size_x = 8, local_size_y = 8) in;
 void main()
 {
 	uvec3 verticesCount = gl_NumWorkGroups * gl_WorkGroupSize;

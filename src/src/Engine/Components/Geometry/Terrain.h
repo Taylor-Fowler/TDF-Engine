@@ -11,12 +11,24 @@ class Texture;
 class Terrain : public Component, public IRender
 {
 private:
-	std::shared_ptr<WorldGeneration> m_worldGen;
-	std::shared_ptr<Mesh> m_mesh;
 
-	float m_minimumHeight = -5.0f;
-	float m_maximumHeight = 15.0f;
+	float m_seeds[2];
+	float m_minimumHeight = -64.0f;
+	float m_maximumHeight = 64.0f;
+	int m_gridWidth = 256;
+	int m_gridDepth = 256;
+	int m_chunkWidth = 32;
+	int m_chunkDepth = 32;
+	float m_cubeSize = 8.0f;
+	glm::vec3 m_lastGeneratedPosition;
+
 	std::vector<std::shared_ptr<Texture>> m_textures;
+	unsigned int m_verticesBuffer[2];
+	unsigned int m_normalBuffer;
+	unsigned int m_textureCoordinateBuffer;
+	unsigned int m_indicesBuffer;
+	unsigned int m_moistureBuffer;
+	unsigned int m_vaoID;
 
 public:
 	Terrain();
@@ -29,10 +41,14 @@ public:
 	void SetChunkHeight(int height);
 
 	float GetHeight(float x, float z);
-	float GetAbsoluteHeight(float x, float z);
 
 	void Render(std::shared_ptr<Program>& program, const RenderDetails &renderDetails) override;
 
+private:
+	void RegenerateVertices();
 protected:
 	void setupTerrain();
+
+	void Update() override;
+	bool Initialise() override;
 };

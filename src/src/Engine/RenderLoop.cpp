@@ -1,12 +1,23 @@
 #include "RenderLoop.h"
+#include "Window\Window.h"
 #include "Components\Camera\Camera.h"
 #include "Components\Renderer\Renderer.h"
 #include "..\RenderResources\ShaderModule\ShaderModule.h"
+#include "..\Utilities\Math\MathHelpers.h"
 
 #include "GL\glew.h"
+#include "glm\gtc\matrix_transform.hpp"
 
 void RenderLoop::RenderFrame()
 {
+	Window* window = Window::active();
+	float aspectRatio = 1.333333f;
+
+	if (window != nullptr && window->Height() != 0)
+	{
+		aspectRatio = (float)window->Width() * 1.0f / (float)window->Height();
+	}
+
 	for (auto& camera : Camera::AllCameras())
 	{
 		auto clearColour = camera->m_clearColour;
@@ -15,8 +26,13 @@ void RenderLoop::RenderFrame()
 
 		for (auto& modPos : m_modulePositions)
 		{
-			m_modules[modPos.second]->PreRender(camera);
-			m_modules[modPos.second]->Render(camera->ViewMatrix());
+			m_modules[modPos.second]->Render(
+			{
+				camera,
+				camera->ViewMatrix(),
+				glm::mat4(1),
+				glm::perspective(camera->m_fovDegrees * DEG2RAD, aspectRatio, camera->m_nearPlane, camera->m_farPlane)
+			});
 		}
 	}
 }

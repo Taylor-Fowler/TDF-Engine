@@ -26,8 +26,18 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 	// Main Camera
 	{
 		GameObject * cameraObject = new GameObject();
-		cameraObject->AddComponent<Camera>().SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		Camera& cam = cameraObject->AddComponent<Camera>();
 		
+		cam.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		cam.SetSkybox(renderResourceFactory.LoadStaticCubeTexture(
+			"Assets/Textures/Skyboxes/keithlantz.net/xpos.png",
+			"Assets/Textures/Skyboxes/keithlantz.net/xneg.png",
+			"Assets/Textures/Skyboxes/keithlantz.net/ypos.png",
+			"Assets/Textures/Skyboxes/keithlantz.net/yneg.png",
+			"Assets/Textures/Skyboxes/keithlantz.net/zpos.png",
+			"Assets/Textures/Skyboxes/keithlantz.net/zneg.png"
+			));
+
 		bcc = &cameraObject->AddComponent<BasicCameraController>();
 		m_objects.push_back(std::shared_ptr<GameObject>(cameraObject));
 	}
@@ -51,8 +61,7 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 
 		auto program = renderResourceFactory.CreateProgram(shaders, "Explosion");
 		program->Use();
-		glm::mat4 projectionMatrix = glm::perspective(1.0472f, 800.0f * 1.0f / 600.0f, 0.02f, 1000.0f);
-		program->SendParam("projectionMatrix", glm::value_ptr(projectionMatrix));
+
 		program->SendParam("ambientLight", 1.0f, 1.0f, 1.0f);
 		renderLoop.AddModule(std::make_shared<ExplosionModule>(program), 11, "Explosion");
 	}
@@ -65,13 +74,11 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 		const char* varyings[] = { "hit1", "spawned1", "pos1", "velocity1" };
 		auto program = renderResourceFactory.CreateFeedbackProgram(shaders, varyings, 4, "SphericalDrip");
 		program->Use();
-		glm::mat4 projectionMatrix = glm::perspective(1.0472f, 800.0f * 1.0f / 600.0f, 0.02f, 1000.0f);
-		program->SendParam("projectionMatrix", glm::value_ptr(projectionMatrix));
+
 		program->SendParam("ambientLight", 1.0f, 1.0f, 1.0f);
 		renderLoop.AddModule(std::make_shared<ShaderModule>(program), 12, "SphericalDrip");
 	}
-
-
+	// Floaty thing shader
 	{
 		std::vector<std::shared_ptr<Shader>> shaders;
 		shaders.push_back(renderResourceFactory.CreateShader("Assets/GLSL Source/FloatyThing.vert", Shader::SHADER_TYPE::VERTEX));
@@ -80,19 +87,19 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 		const char* varyings[] = { "pos1", "vel1" };
 		auto program = renderResourceFactory.CreateFeedbackProgram(shaders, varyings, 2, "FloatyThing");
 		program->Use();
-		glm::mat4 projectionMatrix = glm::perspective(1.0472f, 800.0f * 1.0f / 600.0f, 0.02f, 1000.0f);
-		program->SendParam("projectionMatrix", glm::value_ptr(projectionMatrix));
+
 		renderLoop.AddModule(std::make_shared<ShaderModule>(program), 13, "FloatyThing");
 	}
 
+	// Generate rocks
 	{
 		std::vector<glm::vec2> positions;
 		auto rock = renderResourceFactory.CreateStaticMesh("Assets/Models/Rock.obj");
 		auto tex = renderResourceFactory.LoadStaticTexture("Assets/Textures/Rock.png");
 		
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 100; i++)
 		{
-			glm::vec2 possiblePosition = { 200 - rand() % 400, 200 - rand() % 400 };
+			glm::vec2 possiblePosition = { 1024 - rand() % 2048, 1024 - rand() % 2048 };
 			bool success = true;
 			for (auto pos : positions)
 			{
@@ -115,7 +122,7 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 				mat->AddParameter("texture0", renderResourceFactory.LoadStaticTexture("Assets/Textures/Rock.png"));
 				rend.AddMaterial(mat);
 
-				obj->GetTransform()->SetPosition({ possiblePosition.x, terr->GetAbsoluteHeight(possiblePosition.x, possiblePosition.y), possiblePosition.y });
+				obj->GetTransform()->SetPosition({ possiblePosition.x, terr->GetHeight(possiblePosition.x, possiblePosition.y), possiblePosition.y });
 				obj->GetTransform()->SetScale({ 5.0f, 5.0f, 5.0f });
 				positions.push_back(possiblePosition);
 				m_rocks.push_back(std::shared_ptr<GameObject>(obj));
@@ -129,7 +136,23 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 		Renderer& cubeRend = cube->AddComponent<Renderer>();
 		cubeRend.m_mesh = renderResourceFactory.CreateStaticMesh("Assets/Models/Rock.obj");
 		cube->AddComponent<Explosion>();
-		cube->GetTransform()->SetPosition(glm::vec3(-25.0f, terr->GetAbsoluteHeight(-25.0f, -5.0f), -5.0f));
+		cube->GetTransform()->SetPosition(glm::vec3(-25.0f, terr->GetHeight(-25.0f, -5.0f), -5.0f));
+		cube->GetTransform()->SetScale({ 5.0f, 5.0f, 5.0f });
+		m_objects.push_back(std::shared_ptr<GameObject>(cube));
+	}
+
+	// Test Cube
+	{
+		GameObject * cube = new GameObject();
+		Renderer& rend = cube->AddComponent<Renderer>();
+		rend.m_mesh = renderResourceFactory.CreateStaticMesh("Assets/Models/Cube.obj");
+
+		auto mat = std::make_shared<Material>(renderLoop.DefaultShaderModule());
+		mat->AddParameter("ambientMaterial", std::move(std::make_unique<FloatData3>(1.0f, 0.1f, 0.1f)));
+		mat->AddParameter("texture0", renderResourceFactory.WhiteTexture());
+		rend.AddMaterial(mat);
+
+		cube->GetTransform()->SetPosition(glm::vec3(-25.0f, terr->GetHeight(-25.0f, -5.0f) + 10.0f, -5.0f));
 		cube->GetTransform()->SetScale({ 5.0f, 5.0f, 5.0f });
 		m_objects.push_back(std::shared_ptr<GameObject>(cube));
 	}

@@ -17,6 +17,7 @@ public:
 	virtual ~Texture() = 0 {};
 
 	virtual void Bind() const = 0;
+	virtual void Unbind() const = 0;
 
 
 	unsigned int ID() const

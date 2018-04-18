@@ -11,7 +11,7 @@ void BasicCameraController::SetTerrain(Terrain * terrain)
 	if (terrain != nullptr)
 	{
 		m_terrain = terrain;
-		m_camera->SetPosition({ 0.0f, m_terrain->GetAbsoluteHeight(0.0f, 0.0f) + m_offset, 0.0f });
+		m_camera->SetPosition({ 0.0f, m_terrain->GetHeight(0.0f, 0.0f) + m_offset, 0.0f });
 	}
 }
 
@@ -58,7 +58,7 @@ void BasicCameraController::processJump()
 	if (m_terrain != nullptr)
 	{
 		glm::vec3 pos = m_camera->Position();
-		if (pos.y < m_terrain->GetAbsoluteHeight(pos.x, pos.z) + m_offset)
+		if (pos.y < m_terrain->GetHeight(pos.x, pos.z) + m_offset)
 		{
 			m_jumping = false;
 			m_velocity = { 0.0f, 0.0f, 0.0f };
@@ -71,7 +71,7 @@ void BasicCameraController::ground()
 {
 	glm::vec3 pos = m_camera->Position();
 	if (m_terrain != nullptr)
-		m_camera->SetPositionY(m_terrain->GetAbsoluteHeight(pos.x, pos.z) + m_offset);
+		m_camera->SetPositionY(m_terrain->GetHeight(pos.x, pos.z) + m_offset);
 }
 
 void BasicCameraController::Update()

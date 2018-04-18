@@ -4,11 +4,14 @@
 
 // Forward declarations
 class Program;
+class Camera;
 
 struct RenderDetails
 {
-	glm::mat4 viewMatrix;
-	glm::mat4 transformMatrix;
+	Camera		*renderingCamera;
+	glm::mat4	viewMatrix;
+	glm::mat4	transformMatrix;
+	glm::mat4	projectionMatrix;
 };
 
 // Abstract class that requires all derivatives to implement the render function

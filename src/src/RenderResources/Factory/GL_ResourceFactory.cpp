@@ -2,6 +2,7 @@
 
 #include "GL_ResourceFactory.h"
 #include "..\Texture\GL_Texture.h"
+#include "..\Texture\GL_CubeTexture.h"
 #include "..\Program\GL_Program.h"
 #include "..\Shader\GL_Shader.h"
 
@@ -33,6 +34,53 @@ std::shared_ptr<Texture> GL_ResourceFactory::LoadStaticTexture(const std::string
 Texture * GL_ResourceFactory::LoadDynamicTexture(const std::string & name) const
 {
 	return nullptr;
+}
+
+std::shared_ptr<CubeTexture> GL_ResourceFactory::LoadStaticCubeTexture(const std::string & x_pos, const std::string & x_neg, const std::string & y_pos, const std::string & y_neg, const std::string & z_pos, const std::string & z_neg) const
+{
+	std::shared_ptr<CubeTexture> texture;
+
+	unsigned int width, height, finalWidth, finalHeight;
+	void *data1, *data2, *data3, *data4, *data5, *data6;
+
+	finalWidth = finalHeight = UINT16_MAX;
+
+	// X POS
+	if ((data1 = m_imageLoader->Load(x_pos, GL_RGBA, width, height)) == 0)
+		return std::shared_ptr<CubeTexture>();
+	finalWidth = (finalWidth > width) ? width : finalWidth;
+	finalHeight = (finalHeight > height) ? height : finalHeight;
+	// X NEG
+	if ((data2 = m_imageLoader->Load(x_neg, GL_RGBA, width, height)) == 0)
+		return std::shared_ptr<CubeTexture>();
+	finalWidth = (finalWidth > width) ? width : finalWidth;
+	finalHeight = (finalHeight > height) ? height : finalHeight;
+	// Y POS
+	if ((data3 = m_imageLoader->Load(y_pos, GL_RGBA, width, height)) == 0)
+		return std::shared_ptr<CubeTexture>();
+	finalWidth = (finalWidth > width) ? width : finalWidth;
+	finalHeight = (finalHeight > height) ? height : finalHeight;
+	// Y NEG
+	if ((data4 = m_imageLoader->Load(y_neg, GL_RGBA, width, height)) == 0)
+		return std::shared_ptr<CubeTexture>();
+	finalWidth = (finalWidth > width) ? width : finalWidth;
+	finalHeight = (finalHeight > height) ? height : finalHeight;
+	// Z POS
+	if ((data5 = m_imageLoader->Load(z_pos, GL_RGBA, width, height)) == 0)
+		return std::shared_ptr<CubeTexture>();
+	finalWidth = (finalWidth > width) ? width : finalWidth;
+	finalHeight = (finalHeight > height) ? height : finalHeight;
+	// Z NEG
+	if ((data6 = m_imageLoader->Load(z_neg, GL_RGBA, width, height)) == 0)
+		return std::shared_ptr<CubeTexture>();
+	finalWidth = (finalWidth > width) ? width : finalWidth;
+	finalHeight = (finalHeight > height) ? height : finalHeight;
+
+
+	texture = std::make_shared<GL_CubeTexture>(finalWidth, finalHeight, data1, data2, data3, data4, data5, data6);
+
+
+	return texture;
 }
 
 std::shared_ptr<Texture> GL_ResourceFactory::CreateStaticTexture(unsigned int width, unsigned int height) const

@@ -2,26 +2,28 @@
 #include <vector>
 #include <memory>
 #include "glm\glm.hpp"
+#include "..\IRender.h"
 
 class ShaderParamList;
 class Camera;
 class Program;
-class IRender;
+class RenderResourceFactory;
 
 class ShaderModule
 {
-private:
+	friend int main(int argc, char *argv[]);
+protected:
+	static RenderResourceFactory *				_renderResourceFactory;
+
+	std::shared_ptr<Program> m_mainProgram;
 	std::vector<ShaderParamList*> m_paramSubscribers;
 	std::vector<IRender*> m_renderSubscribers;
-protected:
-	std::shared_ptr<Program> m_mainProgram;
 
 public:
 	ShaderModule(std::shared_ptr<Program> program);
 	virtual ~ShaderModule() {};
 
-	virtual void PreRender(Camera *const camera);
-	virtual void Render(const glm::mat4& viewMatrix);
+	virtual void Render(RenderDetails renderDetails);
 	virtual void Subscribe(ShaderParamList* params)
 	{
 		if(params != nullptr)
@@ -35,6 +37,5 @@ public:
 
 	virtual void Unsubscribe(ShaderParamList* params);
 	virtual void Unsubscribe(IRender* renderable);
-private:
-	virtual void init();
+
 };

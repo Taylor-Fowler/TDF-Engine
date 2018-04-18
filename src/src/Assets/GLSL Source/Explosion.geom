@@ -40,7 +40,7 @@ void main()
 		GeomResult.TextureCoordinateCubeMap = vertexOut[i].TextureCoordinateCubeMap;
 		GeomResult.ShadowCoordinate = vertexOut[i].ShadowCoordinate;
 
-		gl_Position = gl_in[i].gl_Position + vec4(direction * explosionElapsed * speed, 1.0);
+		gl_Position = gl_in[i].gl_Position + vec4(direction * explosionElapsed * speed, 0.0);
 		EmitVertex();
 	}
 

@@ -1,6 +1,9 @@
 #include "Material.h"
 #include "..\..\Engine\Components\Renderer\Renderer.h"
 
+#include "GL\glew.h"
+#include <iostream>
+
 Material::Material(std::shared_ptr<ShaderModule> module) : ShaderParamList(module)
 {
 }

@@ -61,7 +61,7 @@ public:
 	}
 	void SetSeed(double seed)
 	{
-		this->seed = seed;
+		m_seed = seed;
 	}
 
 	void GenerateVertices(std::vector<float>& vertices, float minHeight, float maxHeight, float positionX = 0.0f, float positionZ = 0.0f);
