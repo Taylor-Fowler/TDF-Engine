@@ -40,6 +40,9 @@ public:
 	bool SendParam(const std::string& parameterName, unsigned int *v0, unsigned int parameterSize, unsigned int arraySize) override;
 
 	bool SendParam(const unsigned int paramLocation, float v0, float v1, float v2) override;
+	bool BindUniformBlock(const std::string& uniformName, unsigned int uniformIndex) override;
+
+
 	unsigned int GetLocation(const std::string& paramName) override;
 private:
 	int getUniformLocation(const std::string& name);

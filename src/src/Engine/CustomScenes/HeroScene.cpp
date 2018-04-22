@@ -11,6 +11,7 @@
 #include "..\Components\Camera\Camera.h"
 #include "..\Components\Renderer\Renderer.h"
 #include "..\Components\Geometry\Terrain.h"
+#include "..\Components\Lighting\Light.h"
 
 #include "..\..\CustomComponents\BasicCameraController.h"
 #include "..\..\CustomComponents\ShaderSubscribers\Explosion.h"
@@ -19,8 +20,12 @@
 
 #include "..\..\RenderResources\ShaderModule\ExplosionModule.h"
 
+DirectionalLight *dirLight;
+
 HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& renderLoop)
 {
+	Light::SetAmbientLight(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
 	BasicCameraController * bcc;
 	Terrain * terr;
 	// Main Camera
@@ -40,6 +45,10 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 
 		bcc = &cameraObject->AddComponent<BasicCameraController>();
 		m_objects.push_back(std::shared_ptr<GameObject>(cameraObject));
+
+		dirLight = &cameraObject->AddComponent<DirectionalLight>();
+		dirLight->SetDiffuse({ 1.0f, 0.1f, 0.1f });
+		
 	}
 	// Terrain
 	{
@@ -61,8 +70,8 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 
 		auto program = renderResourceFactory.CreateProgram(shaders, "Explosion");
 		program->Use();
+		program->BindUniformBlock("lights", Light::GetUniformBufferBindingPoint());
 
-		program->SendParam("ambientLight", 1.0f, 1.0f, 1.0f);
 		renderLoop.AddModule(std::make_shared<ExplosionModule>(program), 11, "Explosion");
 	}
 	// SphericalDrip Shader
@@ -75,7 +84,6 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 		auto program = renderResourceFactory.CreateFeedbackProgram(shaders, varyings, 4, "SphericalDrip");
 		program->Use();
 
-		program->SendParam("ambientLight", 1.0f, 1.0f, 1.0f);
 		renderLoop.AddModule(std::make_shared<ShaderModule>(program), 12, "SphericalDrip");
 	}
 	// Floaty thing shader
@@ -119,6 +127,7 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 
 				auto mat = std::make_shared<Material>(renderLoop.DefaultShaderModule());
 				mat->AddParameter("ambientMaterial", std::move(std::make_unique<FloatData3>(1.0f, 1.0f, 1.0f)));
+				mat->AddParameter("diffuseMaterial", std::move(std::make_unique<FloatData3>(1.0f, 1.0f, 1.0f)));
 				mat->AddParameter("texture0", renderResourceFactory.LoadStaticTexture("Assets/Textures/Rock.png"));
 				rend.AddMaterial(mat);
 

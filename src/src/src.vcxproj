@@ -26,6 +26,7 @@
     <ClCompile Include="Engine\Components\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Components\Component.cpp" />
     <ClCompile Include="Engine\Components\Geometry\Terrain.cpp" />
+    <ClCompile Include="Engine\Components\Lighting\Light.cpp" />
     <ClCompile Include="Engine\Components\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Components\Transform\Transform.cpp" />
     <ClCompile Include="Engine\CustomScenes\HeroScene.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="Engine\Components\Camera\Camera.h" />
     <ClInclude Include="Engine\Components\Component.h" />
     <ClInclude Include="Engine\Components\Geometry\Terrain.h" />
+    <ClInclude Include="Engine\Components\Lighting\Light.h" />
     <ClInclude Include="Engine\Components\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Components\Transform\Transform.h" />
     <ClInclude Include="Engine\CustomScenes\HeroScene.h" />

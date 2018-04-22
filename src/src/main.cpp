@@ -9,12 +9,12 @@
 #include "Engine\EventSystem\SDL_EventSystem.h"
 #include "Engine\RenderLoop.h"
 #include "Engine\Components\Component.h"
+#include "Engine\Components\Lighting\Light.h"
 
 #include "RenderResources\ResourceManager.h"
 #include "RenderResources\Factory\GL_ResourceFactory.h"
 #include "RenderResources\ShaderModule\ShaderModule.h"
 #include "RenderResources\ShaderModule\SkyboxModule.h"
-#include "RenderResources\ShaderModule\ReflectionCubeModule.h"
 #include "RenderResources\Program\Program.h"
 #include "RenderResources\Shader\Shader.h"
 #include "Utilities\Time.h"
@@ -64,6 +64,7 @@ bool Init()
 
 	AppTime::Initialise();
 	srand(time(NULL));
+	Light::InitialiseUniformBuffer();
 
 	return true;
 }
@@ -117,7 +118,7 @@ void CreateDefaultShaders()
 
 		auto program = resourceFactory->CreateProgram(shaders, "Default");
 		program->Use();
-		program->SendParam("ambientLight", 1.0f, 1.0f, 1.0f);
+		program->BindUniformBlock("lights", Light::GetUniformBufferBindingPoint());
 
 		renderLoop.m_defaultProgram = program;
 		renderLoop.m_defaultModule = std::make_shared<ShaderModule>(program);
@@ -131,7 +132,8 @@ void CreateDefaultShaders()
 
 		auto program = resourceFactory->CreateProgram(shaders, "Terrain");
 		program->Use();
-		program->SendParam("ambientMaterial", 0.5f, 0.5f, 0.5f);
+		program->BindUniformBlock("lights", Light::GetUniformBufferBindingPoint());
+		program->SendParam("ambientMaterial", 0.8f, 0.7f, 0.5f);
 
 		renderLoop.AddModule(std::make_shared<ShaderModule>(program), 2, "Terrain");
 	}

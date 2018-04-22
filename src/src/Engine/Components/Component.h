@@ -31,11 +31,11 @@ public:
 		return m_enabled;
 	}
 
-	void Enable() {
+	virtual void Enable() {
 		m_enabled = true;
 	}
 
-	void Disable() {
+	virtual void Disable() {
 		m_enabled = false;
 	}
 

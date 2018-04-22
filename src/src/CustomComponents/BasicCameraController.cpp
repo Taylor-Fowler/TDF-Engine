@@ -17,7 +17,10 @@ void BasicCameraController::SetTerrain(Terrain * terrain)
 
 void BasicCameraController::move()
 {
-	if (!m_jumping)
+	if (eventSystem()->IsKeyDown(ES_KEYC_F))
+		m_freeRoam = !m_freeRoam;
+
+	if (!m_jumping || m_freeRoam)
 	{
 		glm::vec3 moveDirection = m_camera->Position();
 
@@ -30,7 +33,7 @@ void BasicCameraController::move()
 		if (eventSystem()->IsKeyDown(ES_KEYC_D))
 			m_camera->Translate(m_camera->Right() * m_speed);
 
-		if (eventSystem()->IsKeyDown(ES_KEYC_SPACE))
+		if (!m_freeRoam && eventSystem()->IsKeyDown(ES_KEYC_SPACE))
 		{
 			moveDirection = m_camera->Position() - moveDirection;
 			moveDirection.y = 0.0f;
@@ -79,10 +82,13 @@ void BasicCameraController::Update()
 	glm::vec3 pos = m_camera->Position();
 
 	move();
-	processJump();
-	
-	if (pos != m_camera->Position() && !m_jumping)
-		ground();
+	if (!m_freeRoam)
+	{
+		processJump();
+
+		if (pos != m_camera->Position() && !m_jumping)
+			ground();
+	}
 
 
 	

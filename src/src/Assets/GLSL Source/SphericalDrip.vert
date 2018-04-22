@@ -16,7 +16,6 @@ uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 
-uniform vec3 ambientLight;
 uniform vec3 ambientMaterial[2];
 
 uniform float worldTime;
@@ -30,7 +29,6 @@ out float spawned1;
 out vec3 pos1;
 out vec3 velocity1;
 
-vec4 ApplyAmbientLight(vec3 colour);
 void Reset();
 float rand(vec2 co);
 mat4 rotationMatrix(vec3 axis, float angle);
@@ -89,17 +87,11 @@ void main(void)
       }
     }
   }
-  Colour = ApplyAmbientLight(mix(ambientMaterial[0], ambientMaterial[1], clamp((pos1.y - sphereBottomY) / (sphereRadius * 2), 0.0, 1.0)));
+  Colour = vec4(mix(ambientMaterial[0], ambientMaterial[1], clamp((pos1.y - sphereBottomY) / (sphereRadius * 2), 0.0, 1.0)), 1.0);
 
   gl_Position = projectionMatrix * viewMatrix * vec4(pos, 1);
 }
 
-
-
-vec4 ApplyAmbientLight(vec3 colour)
-{
-  return vec4(ambientLight * colour, 1);
-}
 
 void Reset()
 {

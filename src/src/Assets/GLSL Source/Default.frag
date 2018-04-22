@@ -1,4 +1,6 @@
 #version 460
+
+#pragma REGION LIGHTING
 ///////////////////////////////////
 ////    CONSTANTS
 ///////////////////////////////////
@@ -13,50 +15,53 @@ const float QUADRATIC_ATTENTUATION = 0.09f;
 ///////////////////////////////////
 struct DIRECTIONAL_LIGHT
 {
-  int On;
-  vec3 Direction;
-  vec3 Diffuse;
+    int On;
+    vec4 Direction;
+    vec4 Diffuse;
 };
 
 struct POINT_LIGHT
 {
-  int On;
-  vec3 Position;
-  vec3 Diffuse;
-  vec3 Specular;
+    int On;
+    vec4 Position;
+    vec4 Diffuse;
+    vec4 Specular;
 };
 
 struct SPOT_LIGHT
 {
-  int On;
-  vec3 Position;
-  vec3 Diffuse;
-  vec3 Specular;
-  vec3 Direction;
-  float Cutoff;
-  float Attenuation;
-};
-
-struct VERTEX_OUT
-{
-  vec4 Colour;
-  vec4 Position;
-  vec3 Normal;
-  vec2 TextureCoordinate;
-  vec3 TextureCoordinateCubeMap;
-  vec4 ShadowCoordinate;
+    int On;
+    vec4 Position;
+    vec4 Diffuse;
+    vec4 Specular;
+    vec4 Direction;
+    float Cutoff;
+    float Attenuation;
 };
 
 ////////////////////////////////////
 ////	UNIFORM BUFFER OBJECTS
 ////////////////////////////////////
-//layout (std140) uniform lights
-//{
-//	vec3 AmbientLight;
-//	DIRECTIONAL_LIGHT DirectionalLights[MAX_DIRECTIONAL_LIGHTS];
-//	SPOT_LIGHT SpotLights[MAX_SPOT_LIGHTS];
-//	POINT_LIGHT PointLights[MAX_POINT_LIGHTS];
-//};
+layout (std140) uniform lights
+{
+	vec4 AmbientLight;
+	DIRECTIONAL_LIGHT DirectionalLights[MAX_DIRECTIONAL_LIGHTS];
+	SPOT_LIGHT SpotLights[MAX_SPOT_LIGHTS];
+	POINT_LIGHT PointLights[MAX_POINT_LIGHTS];
+};
+#pragma ENDREGION
+
+#pragma REGION VERTEX_OUT
+struct VERTEX_OUT
+{
+    vec4 Colour;
+    vec4 Position;
+    vec3 Normal;
+    vec2 TextureCoordinate;
+    vec3 TextureCoordinateCubeMap;
+    vec4 ShadowCoordinate;
+};
+#pragma ENDREGION
 
 ////////////////////////////////////
 ////	UNIFORMS
@@ -64,10 +69,6 @@ struct VERTEX_OUT
 uniform mat4 viewMatrix;
 uniform mat4 modelViewMatrix;
 uniform mat4 shadowMatrix;
-
-uniform DIRECTIONAL_LIGHT directionalLights[MAX_DIRECTIONAL_LIGHTS];
-uniform POINT_LIGHT pointLights[MAX_POINT_LIGHTS];
-uniform SPOT_LIGHT spotLights[MAX_SPOT_LIGHTS];
 
 uniform sampler2D texture0;
 uniform samplerCube reflectionCubeMap;
@@ -92,16 +93,19 @@ void main(void)
 {
 	FinalColour = vertexOut.Colour;
 
-	for(int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++) {
-		FinalColour += ApplyDirectionalLight(directionalLights[i]) * directionalLights[i].On;
+	for(int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++) 
+    {
+		FinalColour += ApplyDirectionalLight(DirectionalLights[i]) * DirectionalLights[i].On;
 	}
 
-	for(int i = 0; i < MAX_POINT_LIGHTS; i++) {
-		FinalColour += ApplyPointLight(pointLights[i]) * pointLights[i].On;
+	for(int i = 0; i < MAX_POINT_LIGHTS; i++) 
+    {
+		FinalColour += ApplyPointLight(PointLights[i]) * PointLights[i].On;
 	}
 
-	for(int i = 0; i < MAX_SPOT_LIGHTS; i++) {
-		FinalColour += ApplySpotLight(spotLights[i]) * spotLights[i].On;
+	for(int i = 0; i < MAX_SPOT_LIGHTS; i++) 
+    {
+		FinalColour += ApplySpotLight(SpotLights[i]) * SpotLights[i].On;
 	}
 
 
@@ -119,70 +123,71 @@ void main(void)
 
 vec4 ApplyDirectionalLight(DIRECTIONAL_LIGHT light)
 {
-  vec3 L = normalize(mat3(viewMatrix) * light.Direction); // Calculate the light direction in view space
+    vec3 L = normalize(mat3(viewMatrix) * -light.Direction.xyz); // Calculate the light direction in view space
 
-  float NdotL = max(dot(vertexOut.Normal, L), 0);
+    float NdotL = max(dot(vertexOut.Normal, L), 0);
 
-  return vec4(diffuseMaterial * light.Diffuse, 1) * NdotL;
+    return light.Diffuse * vec4(diffuseMaterial, 1) * NdotL;
 }
 
 
 vec4 ApplyPointLight(POINT_LIGHT light)
 {
-  vec4 Colour = vec4(0, 0, 0, 1);
-  vec3 L = (viewMatrix * vec4(light.Position, 1)).xyz; // Calculate light position in view space
-  L -= vertexOut.Position.xyz; // Find the direction from vertex to light
-  L = normalize(L); // Direction should be normalized
+    vec4 Colour = vec4(0, 0, 0, 1);
+    vec3 L = (viewMatrix * light.Position).xyz; // Calculate light position in view space
+    L -= vertexOut.Position.xyz; // Find the direction from vertex to light
+    L = normalize(L); // Direction should be normalized
 
-  float NdotL = max(dot(vertexOut.Normal, L), 0);
-  Colour += vec4(diffuseMaterial * light.Diffuse, 1) * NdotL;
+    float NdotL = max(dot(vertexOut.Normal, L), 0);
+    Colour += light.Diffuse * vec4(diffuseMaterial, 1) * NdotL;
 
 
-  vec3 V = normalize(-vertexOut.Position.xyz); // Calculate direction of camera from vertex
-  vec3 R = reflect(-L, vertexOut.Normal);
+    vec3 V = normalize(-vertexOut.Position.xyz); // Calculate direction of camera from vertex
+    vec3 R = reflect(-L, vertexOut.Normal);
 
-  float RdotV = max(dot(R, V), 0);
+    float RdotV = max(dot(R, V), 0);
 
-  if(RdotV != 0 && NdotL != 0)
-  {
-    Colour += vec4(specularMaterial * light.Specular * pow(RdotV, shininessMaterial), 1);
-  }
-  return Colour;
+    if(RdotV != 0 && NdotL != 0)
+    {
+        Colour += vec4(specularMaterial * light.Specular.xyz * pow(RdotV, shininessMaterial), 1);
+    }
+    return Colour;
 }
 
 vec4 ApplySpotLight(SPOT_LIGHT light)
 {
-  vec4 Colour = vec4(0, 0, 0, 1);
-  vec3 L = (viewMatrix * vec4(light.Position, 1)).xyz; // Calculate light position in view space
-  L -= vertexOut.Position.xyz; // Find the direction from vertex to light
-  L = normalize(L); // Direction should be normalized
+    vec4 Colour = vec4(0, 0, 0, 1);
+    vec3 L = (viewMatrix * light.Position).xyz; // Calculate light position in view space
+    L -= vertexOut.Position.xyz; // Find the direction from vertex to light
+    L = normalize(L); // Direction should be normalized
 
-  float NdotL = max(dot(vertexOut.Normal, L), 0);
-  Colour += vec4(diffuseMaterial * light.Diffuse, 1) * NdotL;
+    float NdotL = max(dot(vertexOut.Normal, L), 0);
+    Colour += light.Diffuse * vec4(diffuseMaterial, 1) * NdotL;
 
 
-  vec3 V = normalize(-vertexOut.Position.xyz); // Calculate direction of camera from vertex
-  vec3 R = reflect(-L, vertexOut.Normal);
+    vec3 V = normalize(-vertexOut.Position.xyz); // Calculate direction of camera from vertex
+    vec3 R = reflect(-L, vertexOut.Normal);
 
-  float RdotV = max(dot(R, V), 0);
+    float RdotV = max(dot(R, V), 0);
 
-  if(RdotV != 0 && NdotL != 0)
-    Colour += vec4(specularMaterial * light.Specular * pow(RdotV, shininessMaterial), 1);
+    if(RdotV != 0 && NdotL != 0)
+        Colour += vec4(specularMaterial * light.Specular.xyz * pow(RdotV, shininessMaterial), 1);
 
-  // Spot Factor calculation below
-  vec3 D = normalize(mat3(viewMatrix) * light.Direction);
-  float s = dot(-L, D);
-  float alpha = acos(s);
-  float deg = clamp(radians(light.Cutoff), 0, 90); // Convert cutoff to degrees and clamp between 0-90
+    // Spot Factor calculation below
+    vec3 D = normalize(mat3(viewMatrix) * light.Direction.xyz);
+    float s = dot(-L, D);
+    float alpha = acos(s);
+    float deg = radians(clamp(light.Cutoff, 0, 90)); // Convert cutoff to degrees and clamp between 0-90
 
-  float spotFactor = 0;
-  if(alpha <= deg) {
-    spotFactor = pow(s, alpha);
-  }
+    float spotFactor = 0;
+    if(alpha <= deg) 
+    {
+        spotFactor = pow(s, alpha);
+    }
 
-  // Attenuation factor below
-  float dist = length(viewMatrix * vec4(light.Position, 1) - vertexOut.Position);
-  float att = 1 / (QUADRATIC_ATTENTUATION * dist * dist);
+    // Attenuation factor below
+    float dist = length(viewMatrix * light.Position - vertexOut.Position);
+    float att = 1 / (QUADRATIC_ATTENTUATION * dist * dist);
 
-  return Colour * spotFactor * att;
+    return Colour * spotFactor * att;
 }

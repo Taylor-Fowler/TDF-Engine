@@ -22,7 +22,12 @@ private:
 	float m_cubeSize = 8.0f;
 	glm::vec3 m_lastGeneratedPosition;
 
-	std::vector<std::shared_ptr<Texture>> m_textures;
+	std::shared_ptr<Texture> m_dirt;
+	std::shared_ptr<Texture> m_dirtGrass;
+	std::shared_ptr<Texture> m_grassLong;
+	std::shared_ptr<Texture> m_rockyDirt;
+	std::shared_ptr<Texture> m_dryGrass;
+
 	unsigned int m_verticesBuffer[2];
 	unsigned int m_normalBuffer;
 	unsigned int m_textureCoordinateBuffer;

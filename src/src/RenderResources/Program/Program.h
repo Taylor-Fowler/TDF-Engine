@@ -54,6 +54,8 @@ public:
 	virtual bool SendParam(const std::string& parameterName, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3) = 0;
 	virtual bool SendParam(const std::string& parameterName, unsigned int *v0, unsigned int parameterSize, unsigned int arraySize) = 0;
 
+	virtual bool BindUniformBlock(const std::string& uniformName, unsigned int uniformIndex) = 0;
+
 	unsigned int ID() { return m_id; }
 
 

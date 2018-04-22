@@ -14,9 +14,6 @@ layout (location = 1) in vec3 vel;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 
-//uniform vec3 ambientLight;
-//uniform vec3 ambientMaterial[2];
-
 uniform vec3 follow;
 uniform float worldTime;
 
@@ -28,27 +25,27 @@ float rand(vec2 co);
 
 void main(void)
 {
-  pos1 = pos;
-  vel1 = vel;
-  vel1 = normalize(vel1 + (normalize(follow - pos) * 1.2)) * 0.05;
+    pos1 = pos;
+    vel1 = vel;
+    vel1 = normalize(vel1 + (normalize(follow - pos) * 1.2)) * 0.05;
 
-  if(distance(pos1 + vel1, follow) < 0.05)
-  {
-    vec3 vel2 = vec3(
-      rand(vec2(gl_VertexID, pos.z * worldTime)),
-      rand(vec2(pos.x * worldTime, -gl_VertexID)),
-      rand(vec2(worldTime, pos.y * -gl_VertexID / worldTime))
-    ) * 2 - vec3(1, 1, 1);
+    if(distance(pos1 + vel1, follow) < 0.02)
+    {
+        vec3 vel2 = vec3(
+            rand(vec2(gl_VertexID, pos.z * worldTime)),
+            rand(vec2(pos.x * worldTime, -gl_VertexID)),
+            rand(vec2(worldTime, pos.y * -gl_VertexID / worldTime))
+        ) * 2 - vec3(1, 1, 1);
 
-    vel1 = cross(vel1, normalize(vel2)) * 0.2;//normalize(vel1 + normalize(vel2) * 0.1); // vel2 has 4x the pull
-  }
+        vel1 = cross(vel1, normalize(vel2)) * 0.2;//normalize(vel1 + normalize(vel2) * 0.1); // vel2 has 4x the pull
+    }
 
-  pos1 += vel1;
+    pos1 += vel1;
 
-  //normalize(follow - pos) * 2.0 +
-  Colour = vec4(abs(normalize(vel)), 1);
+    //normalize(follow - pos) * 2.0 +
+    Colour = vec4(abs(normalize(vel)), 1);
 
-  gl_Position = projectionMatrix * viewMatrix * vec4(pos, 1);
+    gl_Position = projectionMatrix * viewMatrix * vec4(pos, 1);
 }
 
 highp float rand(vec2 co)

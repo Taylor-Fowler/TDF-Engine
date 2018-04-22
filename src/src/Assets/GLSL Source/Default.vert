@@ -1,5 +1,6 @@
 #version 460
 
+#pragma REGION LIGHTING
 ///////////////////////////////////
 ////    CONSTANTS
 ///////////////////////////////////
@@ -13,30 +14,43 @@ const int MAX_TOTAL_LIGHTS = MAX_DIRECTIONAL_LIGHTS + MAX_POINT_LIGHTS + MAX_SPO
 ///////////////////////////////////
 struct DIRECTIONAL_LIGHT
 {
-  int On;
-  vec3 Direction;
-  vec3 Diffuse;
+    int On;
+    vec4 Direction;
+    vec4 Diffuse;
 };
 
 struct POINT_LIGHT
 {
-  int On;
-  vec3 Position;
-  vec3 Diffuse;
-  vec3 Specular;
+    int On;
+    vec4 Position;
+    vec4 Diffuse;
+    vec4 Specular;
 };
 
 struct SPOT_LIGHT
 {
-  int On;
-  vec3 Position;
-  vec3 Diffuse;
-  vec3 Specular;
-  vec3 Direction;
-  float Cutoff;
-  float Attenuation;
+    int On;
+    vec4 Position;
+    vec4 Diffuse;
+    vec4 Specular;
+    vec4 Direction;
+    float Cutoff;
+    float Attenuation;
 };
 
+////////////////////////////////////
+////	UNIFORM BUFFER OBJECTS
+////////////////////////////////////
+layout (std140) uniform lights
+{
+	vec4 AmbientLight;
+	DIRECTIONAL_LIGHT DirectionalLights[MAX_DIRECTIONAL_LIGHTS];
+	SPOT_LIGHT SpotLights[MAX_SPOT_LIGHTS];
+	POINT_LIGHT PointLights[MAX_POINT_LIGHTS];
+};
+#pragma ENDREGION
+
+#pragma REGION VERTEX_OUT
 struct VERTEX_OUT
 {
   vec4 Colour;
@@ -46,17 +60,7 @@ struct VERTEX_OUT
   vec3 TextureCoordinateCubeMap;
   vec4 ShadowCoordinate;
 };
-
-////////////////////////////////////
-////	UNIFORM BUFFER OBJECTS
-////////////////////////////////////
-//layout (std140) uniform lights
-//{
-//	vec3 AmbientLight;
-//	DIRECTIONAL_LIGHT DirectionalLights[MAX_DIRECTIONAL_LIGHTS];
-//	SPOT_LIGHT SpotLights[MAX_SPOT_LIGHTS];
-//	POINT_LIGHT PointLights[MAX_POINT_LIGHTS];
-//};
+#pragma ENDREGION
 
 ////////////////////////////////////
 ////	VERTEX ATTRIBS
@@ -75,7 +79,6 @@ uniform mat4 viewMatrix;
 uniform mat4 modelViewMatrix;
 uniform mat4 shadowMatrix;
 
-uniform vec3 ambientLight;
 uniform vec3 ambientMaterial;
 
 
@@ -85,15 +88,16 @@ out VERTEX_OUT vertexOut;
 
 void main(void)
 {
-  vertexOut.TextureCoordinate = textureCoordinate;
-  vertexOut.Position = modelViewMatrix * vec4(vertex, 1.0);
-  vertexOut.Normal = normalize(mat3(modelViewMatrix) * normal);
-  vertexOut.TextureCoordinateCubeMap =  inverse(mat3(viewMatrix)) *
-      mix(reflect(vertexOut.Position.xyz, vertexOut.Normal), vertexOut.Normal, 0.2);
-  vertexOut.Colour = vec4(0, 0, 0, 1) + ApplyAmbientLight(ambientMaterial);
-  vertexOut.ShadowCoordinate = shadowMatrix * modelMatrix * vec4(vertex + normal * 0.1, 1);
+    vertexOut.TextureCoordinate = textureCoordinate;
+    vertexOut.Position = modelViewMatrix * vec4(vertex, 1.0);
+    vertexOut.Normal = normalize(mat3(modelViewMatrix) * normal);
+    vertexOut.TextureCoordinateCubeMap =  inverse(mat3(viewMatrix)) *
+        mix(reflect(vertexOut.Position.xyz, vertexOut.Normal), vertexOut.Normal, 0.2);
 
-  gl_Position = projectionMatrix * vertexOut.Position;
+    vertexOut.Colour = ApplyAmbientLight(ambientMaterial);
+    vertexOut.ShadowCoordinate = shadowMatrix * modelMatrix * vec4(vertex + normal * 0.1, 1);
+
+    gl_Position = projectionMatrix * vertexOut.Position;
 }
 
 
@@ -101,5 +105,5 @@ void main(void)
 
 vec4 ApplyAmbientLight(vec3 colour)
 {
-  return vec4(ambientLight * colour, 1);
+    return AmbientLight * vec4(colour, 1);
 }

@@ -231,6 +231,9 @@
     <ClCompile Include="RenderResources\Texture\GL_CubeTexture.cpp">
       <Filter>src\RenderResources\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Components\Lighting\Light.cpp">
+      <Filter>src\Engine\Components\Lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderResources\Factory\GL_ResourceFactory.h">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="RenderResources\Texture\GL_CubeTexture.h">
       <Filter>src\RenderResources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Lighting\Light.h">
+      <Filter>src\Engine\Components\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,6 +18,7 @@ private:
 	glm::vec3		m_velocity			= { 0.0f, 0.0f, 0.0f };
 	bool			m_jumping			= false;
 	float			m_offset			= 7.0f;
+	bool			m_freeRoam			= false;
 
 public:
 	BasicCameraController();

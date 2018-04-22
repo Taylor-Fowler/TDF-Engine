@@ -15,9 +15,7 @@ GL_Program::~GL_Program()
 	glDeleteProgram(m_id);
 
 	for (std::shared_ptr<Shader>& shader : m_attachedShaders)
-	{
 		glDeleteShader(shader->GetShaderID());
-	}
 
 	m_attachedShaders.clear();
 }
@@ -25,9 +23,7 @@ GL_Program::~GL_Program()
 bool GL_Program::AttachShader(std::shared_ptr<Shader>& addShader)
 {
 	if (!Program::AttachShader(addShader))
-	{
 		return false;
-	}
 
 	glAttachShader(m_id, addShader->GetShaderID());
 
@@ -71,6 +67,7 @@ void GL_Program::Use()
 	glValidateProgram(m_id);
 	GLint status = 0;
 	glGetProgramiv(m_id, GL_VALIDATE_STATUS, &status);
+
 	if (status == GL_FALSE)
 	{
 		std::cout << "Error Validating GL Program" << std::endl;
@@ -199,6 +196,19 @@ bool GL_Program::SendParam(const unsigned int paramLocation, float v0, float v1,
 	return true;
 }
 
+bool GL_Program::BindUniformBlock(const std::string & uniformName, unsigned int uniformIndex)
+{
+	GLuint blockIndex = glGetUniformBlockIndex(m_id, uniformName.c_str());
+	if (blockIndex == GL_INVALID_INDEX)
+	{
+		std::cout << "Error finding uniform block in GL Program: " << uniformName << " either does not exist or is not active." << std::endl;
+		return false;
+	}
+
+	glUniformBlockBinding(m_id, blockIndex, uniformIndex);
+	return false;
+}
+
 unsigned int GL_Program::GetLocation(const std::string & paramName)
 {
 	return (unsigned int)getUniformLocation(paramName);
@@ -212,9 +222,8 @@ int GL_Program::getUniformLocation(const std::string &name)
 
 	// Found the uniform location in the map
 	if (it != m_uniformMap.end())
-	{
 		return it->second;
-	}
+
 	// Didnt find the uniform location, search for it
 	int location = glGetUniformLocation(m_id, name.c_str());
 

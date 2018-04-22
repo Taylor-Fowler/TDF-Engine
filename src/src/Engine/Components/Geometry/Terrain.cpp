@@ -12,9 +12,12 @@
 Terrain::Terrain()
 {
 	_renderLoop->GetModule("Terrain").lock()->Subscribe(this);
-	m_textures.push_back(_renderResourceFactory->LoadStaticTexture("Assets/Textures/Gravel.jpg"));
-	m_textures.push_back(_renderResourceFactory->LoadStaticTexture("Assets/Textures/Dirt.jpg"));
-	m_textures.push_back(_renderResourceFactory->LoadStaticTexture("Assets/Textures/DryGrass.jpg"));
+	m_dirt = _renderResourceFactory->LoadStaticTexture("Assets/Textures/Dirt2.jpg");
+	m_dirtGrass = _renderResourceFactory->LoadStaticTexture("Assets/Textures/DirtGrass.jpg");
+	m_grassLong = _renderResourceFactory->LoadStaticTexture("Assets/Textures/GrassLong.jpg");
+	m_rockyDirt = _renderResourceFactory->LoadStaticTexture("Assets/Textures/RockyDirt.jpg");
+	m_dryGrass = _renderResourceFactory->LoadStaticTexture("Assets/Textures/DryGrass.jpg");
+
 
 	m_lastGeneratedPosition = Camera::main()->Position();
 	m_lastGeneratedPosition.y = 0;
@@ -88,18 +91,28 @@ void Terrain::Render(std::shared_ptr<Program>& program, const RenderDetails & re
 	program->SendParam("heightRange", m_maximumHeight - m_minimumHeight);
 	
 
-	program->SendParam("gravel", (int)0);
+	program->SendParam("dirt", (int)0);
 	glActiveTexture(GL_TEXTURE0);
-	m_textures[0]->Bind();
+	m_dirt->Bind();
 
-	program->SendParam("dirt", (int)1);
+	program->SendParam("dirtGrass", (int)1);
 	glActiveTexture(GL_TEXTURE1);
-	m_textures[1]->Bind();
+	m_dirtGrass->Bind();
 
 
-	program->SendParam("grass", (int)2);
+	program->SendParam("grassLong", (int)2);
 	glActiveTexture(GL_TEXTURE2);
-	m_textures[2]->Bind();
+	m_grassLong->Bind();
+
+
+	program->SendParam("rockyDirt", (int)3);
+	glActiveTexture(GL_TEXTURE3);
+	m_rockyDirt->Bind();
+
+
+	program->SendParam("dryGrass", (int)4);
+	glActiveTexture(GL_TEXTURE4);
+	m_dryGrass->Bind();
 
 	glBindVertexArray(m_vaoID);
 	glDrawElements(GL_TRIANGLES, (m_gridWidth - 1) * (m_gridDepth - 1) * 6, GL_UNSIGNED_INT, 0);
