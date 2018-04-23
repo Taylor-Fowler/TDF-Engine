@@ -44,8 +44,7 @@ void main(void)
   {
     velocity1 += vec3(0.0, -0.0001, 0.0);
     velocity1.y = max(velocity1.y, -0.01);
-    //Colour = vec4(0, 1, 0, 1);
-    //Colour = ApplyAmbientLight(ambientMaterial[0]);
+
 
     // As soon as it passes the floor threshold, reset it
     if(pos1.y < sphereBottomY)

@@ -200,24 +200,3 @@ float pnoise(vec2 P, vec2 rep)
   float n_xy = mix(n_x.x, n_x.y, fade_xy.y);
   return 2.3 * n_xy;
 }
-
-// //http://flafla2.github.io/2014/08/09/perlinnoise.html
-// float octaveNoise(vec2 P, int octaves, float persistence)
-// {
-//     float total = 0;
-//     float frequency = 1;
-//     float amplitude = 1;
-//     float maxValue = 0;
-
-//     for(int i = 0; i < octaves; i++)
-//     {
-//         total += cnoise(P * frequency) * amplitude;
-//         maxValue += amplitude;
-//         amplitude *= persistence;
-//         frequency *= 2;
-//     }
-
-
-
-//     return total / maxValue;
-// }

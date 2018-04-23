@@ -78,7 +78,7 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 	{
 		std::vector<std::shared_ptr<Shader>> shaders;
 		shaders.push_back(renderResourceFactory.CreateShader("Assets/GLSL Source/SphericalDrip.vert", Shader::SHADER_TYPE::VERTEX));
-		shaders.push_back(renderResourceFactory.CreateShader("Assets/GLSL Source/SphericalDrip.frag", Shader::SHADER_TYPE::FRAGMENT));
+		shaders.push_back(renderResourceFactory.CreateShader("Assets/GLSL Source/ColourOut.frag", Shader::SHADER_TYPE::FRAGMENT));
 
 		const char* varyings[] = { "hit1", "spawned1", "pos1", "velocity1" };
 		auto program = renderResourceFactory.CreateFeedbackProgram(shaders, varyings, 4, "SphericalDrip");
@@ -90,7 +90,7 @@ HeroScene::HeroScene(RenderResourceFactory& renderResourceFactory, RenderLoop& r
 	{
 		std::vector<std::shared_ptr<Shader>> shaders;
 		shaders.push_back(renderResourceFactory.CreateShader("Assets/GLSL Source/FloatyThing.vert", Shader::SHADER_TYPE::VERTEX));
-		shaders.push_back(renderResourceFactory.CreateShader("Assets/GLSL Source/SphericalDrip.frag", Shader::SHADER_TYPE::FRAGMENT));
+		shaders.push_back(renderResourceFactory.CreateShader("Assets/GLSL Source/ColourOut.frag", Shader::SHADER_TYPE::FRAGMENT));
 
 		const char* varyings[] = { "pos1", "vel1" };
 		auto program = renderResourceFactory.CreateFeedbackProgram(shaders, varyings, 2, "FloatyThing");

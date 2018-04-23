@@ -12,6 +12,7 @@ Explosion::Explosion()
 	m_material->AddParameter("explosionElapsed", std::move(std::make_unique<FloatData>((float)m_explosionStart)));
 	m_material->AddParameter("texture0", _renderResourceFactory->LoadStaticTexture("Assets/Textures/Rock.png"));
 	m_material->AddParameter("ambientMaterial", std::move(std::make_unique<FloatData3>(1.0f, 1.0f, 1.0f)));
+	m_material->AddParameter("diffuseMaterial", std::move(std::make_unique<FloatData3>(1.0f, 1.0f, 1.0f)));
 }
 
 void Explosion::Update()

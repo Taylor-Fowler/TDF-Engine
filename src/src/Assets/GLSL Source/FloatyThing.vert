@@ -27,7 +27,7 @@ void main(void)
 {
     pos1 = pos;
     vel1 = vel;
-    vel1 = normalize(vel1 + (normalize(follow - pos) * 1.2)) * 0.05;
+    vel1 = normalize(vel1 + (normalize(follow - pos) * 1.2)) * 0.1;
 
     if(distance(pos1 + vel1, follow) < 0.02)
     {
@@ -37,12 +37,11 @@ void main(void)
             rand(vec2(worldTime, pos.y * -gl_VertexID / worldTime))
         ) * 2 - vec3(1, 1, 1);
 
-        vel1 = cross(vel1, normalize(vel2)) * 0.2;//normalize(vel1 + normalize(vel2) * 0.1); // vel2 has 4x the pull
+        vel1 = cross(normalize(vel1), normalize(vel2)) * 0.1;
     }
 
     pos1 += vel1;
 
-    //normalize(follow - pos) * 2.0 +
     Colour = vec4(abs(normalize(vel)), 1);
 
     gl_Position = projectionMatrix * viewMatrix * vec4(pos, 1);
